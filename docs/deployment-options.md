@@ -13,6 +13,11 @@ PearlBook separates the **public framework** from the **private knowledge store*
 
 Obsidian Sync replicates vault files between authorized devices. It is not a general-purpose hosted REST API for agents. Obsidian's supported automation path is [Obsidian Headless](https://obsidian.md/help/headless), currently documented as open beta, which can sync a vault on a persistent machine without the desktop application.
 
+Headless does not eliminate the machine; it eliminates the desktop UI. Obsidian
+Sync does not run PearlBook code. If all personal computers may be offline, an
+always-on private VM/VPS must run Headless Sync, the PearlBook MCP server, and the
+outbound tunnel. PearlBook does not currently provide a managed hosted service.
+
 ## Recommended tiers
 
 ### 1. Local first
@@ -61,6 +66,14 @@ Persistent private host
 ```
 
 A private MCP server is one portable way to implement the narrow tool. When supported by the chosen OpenAI product and workspace, OpenAI's [Secure MCP Tunnel](https://learn.chatgpt.com/blog/connect-private-mcp-servers-to-openai-products) provides an outbound-only connection from the private network rather than requiring a public inbound endpoint.
+
+The Codex/ChatGPT skill includes a bounded stdio MCP implementation and a guided
+[headless setup runbook](../skills/codex/pearlbook/references/headless-chatgpt.md).
+It exposes bounded Markdown search, exact-note reads, and hash-checked
+preview-and-confirm writes from one explicit vault root. It intentionally provides
+no delete, rename, shell, or arbitrary filesystem operations. Treat this as a
+private developer-mode deployment; public plugin distribution has different
+hosting and authentication requirements.
 
 ## Why not sync inside every cloud task?
 

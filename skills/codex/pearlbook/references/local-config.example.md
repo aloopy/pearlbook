@@ -5,6 +5,7 @@ Copy this file to `local-config.md` inside the installed skill. Do not commit th
 ```yaml
 vault_name: YourVaultName
 vault_path: /absolute/path/to/your/vault
+access_mode: local
 default_access: read_only
 note_changes: explicit_request_only
 link_style: obsid_net

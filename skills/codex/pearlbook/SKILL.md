@@ -17,7 +17,15 @@ Before accessing a local vault, read `references/local-config.md` when it exists
 
 ## First-run onboarding
 
-When local configuration is absent, offer two choices:
+When local configuration is absent—or the user asks to set up PearlBook—read
+`references/setup.md` and guide the user from the first incomplete stage. First ask
+which access outcome they want:
+
+1. local Obsidian plus Codex, recommended for a first setup;
+2. phone access through a computer that remains online; or
+3. always-available ChatGPT access through a private headless host.
+
+For the vault itself, offer two choices:
 
 1. use an existing Obsidian vault; or
 2. create a new `PearlBook` vault, recommended for beginners, at a user-approved location such as `Documents/PearlBook`.
@@ -25,6 +33,14 @@ When local configuration is absent, offer two choices:
 Ask before creating or modifying any folder. Do not discover a vault by searching a home directory. After the user chooses, prefer `scripts/setup_pearlbook.py` to validate the path, optionally scaffold the starter vault, and write the ignored local configuration. Never pass `--yes` until the user has explicitly confirmed creation.
 
 Explain that the private Obsidian vault folder and the Codex project should normally be the same folder. The public PearlBook repository and installed skill remain separate from the private vault.
+
+For headless ChatGPT access, read `references/headless-chatgpt.md`. Treat setup as
+complete only after Headless Sync is healthy, the MCP tools pass direct tests, the
+preview-and-apply write flow passes with a disposable note, ChatGPT discovers the
+tools, and a new chat successfully searches, reads, and—with explicit approval—
+updates a known note. Pause for the user to enter Obsidian credentials, encryption
+passwords, MFA, OpenAI API keys, and workspace authorization directly in the
+relevant terminal or website. Never ask the user to paste those secrets into chat.
 
 ## Workflow
 
@@ -34,7 +50,7 @@ Explain that the private Obsidian vault folder and the Codex project should norm
 4. Use licensed references only through a session the user authenticated. Stop for login or MFA.
 5. For high-risk or time-sensitive claims, verify current primary or authoritative sources.
 6. Answer concisely with uncertainty, local-protocol caveats, and source links where relevant.
-7. Edit only when the user explicitly requests it or a configured workflow clearly authorizes it.
+7. Edit only when the user explicitly requests it or a configured workflow clearly authorizes it. For MCP-backed edits, read the current note, present the proposed diff, obtain explicit approval, then apply the exact previewed change. Never treat approval of one preview as approval for a later or broader edit.
 8. Validate links, attachments, and unrelated-content preservation after an edit.
 9. Return a clickable Obsidian link, the vault-relative note path, and the sources materially used.
 
