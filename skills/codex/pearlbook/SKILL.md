@@ -13,6 +13,8 @@ Use the narrowest authorized path to the user's private knowledge:
 
 Do not search an entire home directory to discover a vault. The public PearlBook repository contains no personal notes.
 
+Before accessing a local vault, read `references/local-config.md` when it exists. Treat that file as private machine configuration and never copy it into a repository, response, or cloud task. If it is absent, ask the user to identify and authorize the vault path rather than discovering one broadly.
+
 ## Workflow
 
 1. Classify the request as answer-only, note lookup, note update, new note, or visual.
