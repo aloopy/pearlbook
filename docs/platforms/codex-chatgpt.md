@@ -10,6 +10,8 @@ Install or reference the [`pearlbook` skill](../../skills/codex/pearlbook/SKILL.
 
 After installation, copy `references/local-config.example.md` to `references/local-config.md` inside the installed skill and set the absolute authorized vault path. The real `local-config.md` is ignored by this repository and must remain local. Start a new Codex task after installing or updating the skill so it appears in the available-skills catalog.
 
+Chat renderers may suppress direct `obsidian://` links. Set `link_style: obsid_net` to present a normal clickable HTTPS link that redirects into the native Obsidian app on desktop or mobile. The URL includes the vault name and vault-relative note path, but not the note contents. Users who do not want that metadata in an external URL can self-host the static redirector or use plain relative paths instead.
+
 ## Option 2: Codex Remote
 
 [Codex Remote](https://learn.chatgpt.com/docs/remote) lets a user start and steer work from a phone while the connected personal computer performs the work. The computer must remain awake and online. This is a good fit when the synced vault already lives on that computer and the user wants mobile access without creating another vault copy.
