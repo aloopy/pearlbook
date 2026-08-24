@@ -25,7 +25,19 @@ Before accessing a local vault, read `references/local-config.md` when it exists
 6. Answer concisely with uncertainty, local-protocol caveats, and source links where relevant.
 7. Edit only when the user explicitly requests it or a configured workflow clearly authorizes it.
 8. Validate links, attachments, and unrelated-content preservation after an edit.
-9. Return the exact note path or configured Obsidian link plus the sources materially used.
+9. Return a clickable Obsidian link, the vault-relative note path, and the sources materially used.
+
+## Present vault notes in chat
+
+When `link_style` is `obsid_net`, end every vault-backed answer with a normal Markdown link that uses the configured HTTPS bridge:
+
+```text
+[Open “Note title” in Obsidian](https://obsid.net/?vault=<encoded-vault>&file=<encoded-vault-relative-path>)
+```
+
+Use the vault name and vault-relative path, not an absolute local path. Percent-encode every query value, including `/` as `%2F` and spaces as `%20`. Do not emit `obsidian://` directly in ChatGPT or Codex because chat renderers may leave custom URI schemes as unclickable text. Include the plain vault-relative path after the link as a fallback.
+
+Prefer `scripts/build_obsidian_link.py` when it is available. The HTTPS URL contains the vault name and note path, but not the note contents; do not generate it for a path that itself contains sensitive information.
 
 ## Safety boundaries
 
