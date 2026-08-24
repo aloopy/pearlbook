@@ -1,0 +1,4 @@
+interface:
+  display_name: "PearlBook"
+  short_description: "Search and maintain a private clinical learning vault"
+  default_prompt: "Use PearlBook to answer this clinical learning question from my trusted notes and sources."

@@ -6,6 +6,8 @@ Create the vault in a normal user-owned directory. Give the agent access only to
 
 Do not place credentials, browser profiles, or raw patient data in the vault.
 
+For an always-available private host, Obsidian documents [Obsidian Headless](https://obsidian.md/help/headless) as its automation-oriented Sync client. Review [Deployment options](deployment-options.md) before creating another vault replica.
+
 ## 2. Recommended structure
 
 ```text

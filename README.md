@@ -1,8 +1,11 @@
-# Pearlbook
+# PearlBook
 
-A release-agnostic blueprint for a clinician-owned medical knowledge agent built around an Obsidian vault, authenticated reference browsing, and a vault-first clinical workflow.
+An open framework for building a private, agent-compatible clinical learning system around an Obsidian vault, authenticated reference browsing, and a vault-first workflow.
 
-Pearlbook documents the architecture and operating habits behind **LangostaMD** without depending on a particular OpenClaw release, model vendor, or exact command syntax.
+PearlBook documents the architecture and operating habits behind **LangostaMD** without depending on a particular agent release, model vendor, or exact command syntax.
+
+> [!IMPORTANT]
+> This repository contains the **method, adapters, and sanitized examples**. It does not contain anyone's personal notes, vault, credentials, browser state, patient information, or licensed reference content.
 
 ## What this repository covers
 
@@ -13,14 +16,25 @@ Pearlbook documents the architecture and operating habits behind **LangostaMD** 
 - Portable capability contracts for adapting the design to other agent platforms
 - Sanitized templates and checks that keep the system predictable
 
+## Choose a setup
+
+| Platform | Typical path | Setup guide |
+|---|---|---|
+| OpenClaw | Telegram to a dedicated home computer | [OpenClaw](docs/platforms/openclaw.md) |
+| Codex / ChatGPT | Local Codex, Codex Remote, or a private vault tool | [Codex and ChatGPT](docs/platforms/codex-chatgpt.md) |
+| Claude Code / Cowork | Platform adapter pending Claude-specific review | [Claude handoff](docs/platforms/claude.md) |
+
+Read [Deployment options](docs/deployment-options.md) before choosing between a local, remote-to-computer, or always-available private-host configuration.
+
 ## Start here
 
 1. Read [Architecture](docs/architecture.md).
-2. Create the vault with [Obsidian setup](docs/obsidian-setup.md).
-3. Configure the [clinical topic workflow](workflows/clinical-topic.md).
-4. Add authenticated reference access with [CorePendium browser workflow](workflows/corependium-browser.md).
-5. Review [Security and clinical safety](SECURITY.md).
-6. If migrating legacy content, see the [Glass Health case study](workflows/glass-migration.md).
+2. Choose an access pattern in [Deployment options](docs/deployment-options.md).
+3. Create the vault with [Obsidian setup](docs/obsidian-setup.md).
+4. Configure the [clinical topic workflow](workflows/clinical-topic.md).
+5. Add authenticated reference access with [CorePendium browser workflow](workflows/corependium-browser.md).
+6. Review [Security and clinical safety](SECURITY.md).
+7. If migrating legacy content, see the [Glass Health case study](workflows/glass-migration.md).
 
 ## Design principles
 
@@ -34,7 +48,7 @@ Pearlbook documents the architecture and operating habits behind **LangostaMD** 
 
 ## Non-goals
 
-Pearlbook does not redistribute CorePendium/EM:RAP content, automate credential entry, provide a prebuilt medical corpus, or replace clinician judgment. It is infrastructure for personal learning and knowledge management.
+PearlBook does not host personal vaults, redistribute CorePendium/EM:RAP content, automate credential entry, provide a prebuilt medical corpus, or replace clinician judgment. It is infrastructure for personal learning and knowledge management.
 
 ## Project status
 
@@ -42,4 +56,4 @@ Early documentation release. Examples are intentionally sanitized. Contributions
 
 ## License and attribution
 
-Choose a repository license before accepting broad outside contributions. Third-party products and content remain the property of their respective owners.
+The framework and original repository content are available under the [MIT License](LICENSE). Third-party products and content remain the property of their respective owners.
