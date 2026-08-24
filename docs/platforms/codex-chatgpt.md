@@ -6,6 +6,23 @@ Codex and ChatGPT can share the same PearlBook workflow while using different ac
 
 Run Codex desktop or CLI on the computer that holds the Obsidian vault. Grant access only to the vault and a dedicated workspace. This provides the simplest file-level search, reviewable edits, and source linking.
 
+### First-run setup
+
+The simplest mental model is that the private Obsidian vault folder and the Codex project are the same folder. The public PearlBook repository and installed skill remain separate.
+
+Run the guided setup from the installed skill:
+
+```bash
+python3 ~/.codex/skills/pearlbook/scripts/setup_pearlbook.py
+```
+
+The setup offers two paths:
+
+1. select an existing Obsidian vault without changing its structure; or
+2. create a new `Documents/PearlBook` vault with `Inbox`, `Topics`, `Pearls`, `Cases`, `Sources`, `Templates`, and `attachments`.
+
+The script asks before creating a new folder, refuses broad root/home locations, avoids overwriting a non-empty folder, and stores the authorized absolute path only in the ignored local skill configuration. After setup, open that same folder as a vault in Obsidian and as the project in Codex.
+
 Install or reference the [`pearlbook` skill](../../skills/codex/pearlbook/SKILL.md) so the agent applies vault-first retrieval, clinical safety, and editing boundaries consistently.
 
 After installation, copy `references/local-config.example.md` to `references/local-config.md` inside the installed skill and set the absolute authorized vault path. The real `local-config.md` is ignored by this repository and must remain local. Start a new Codex task after installing or updating the skill so it appears in the available-skills catalog.

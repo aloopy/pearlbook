@@ -30,7 +30,7 @@ Read [Deployment options](docs/deployment-options.md) before choosing between a 
 
 1. Read [Architecture](docs/architecture.md).
 2. Choose an access pattern in [Deployment options](docs/deployment-options.md).
-3. Create the vault with [Obsidian setup](docs/obsidian-setup.md).
+3. For Codex, run the [guided first-run setup](docs/platforms/codex-chatgpt.md#first-run-setup), or create the vault manually with [Obsidian setup](docs/obsidian-setup.md).
 4. Configure the [clinical topic workflow](workflows/clinical-topic.md).
 5. Add authenticated reference access with [CorePendium browser workflow](workflows/corependium-browser.md).
 6. Review [Security and clinical safety](SECURITY.md).
