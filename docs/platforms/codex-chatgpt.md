@@ -8,6 +8,8 @@ Run Codex desktop or CLI on the computer that holds the Obsidian vault. Grant ac
 
 Install or reference the [`pearlbook` skill](../../skills/codex/pearlbook/SKILL.md) so the agent applies vault-first retrieval, clinical safety, and editing boundaries consistently.
 
+After installation, copy `references/local-config.example.md` to `references/local-config.md` inside the installed skill and set the absolute authorized vault path. The real `local-config.md` is ignored by this repository and must remain local. Start a new Codex task after installing or updating the skill so it appears in the available-skills catalog.
+
 ## Option 2: Codex Remote
 
 [Codex Remote](https://learn.chatgpt.com/docs/remote) lets a user start and steer work from a phone while the connected personal computer performs the work. The computer must remain awake and online. This is a good fit when the synced vault already lives on that computer and the user wants mobile access without creating another vault copy.

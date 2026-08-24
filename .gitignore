@@ -30,6 +30,7 @@ sessions/
 /source-material/
 *.db
 *.sqlite*
+skills/**/references/local-config.md
 
 # Obsidian device-local state
 **/.obsidian/cache/
