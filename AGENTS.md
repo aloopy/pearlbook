@@ -9,7 +9,8 @@ Help maintain a release-agnostic, clinician-owned blueprint for a medical knowle
 1. `README.md`
 2. `docs/architecture.md`
 3. `SECURITY.md`
-4. the workflow file relevant to the task
+4. `docs/deployment-options.md` when changing access or hosting behavior
+5. the platform adapter and workflow file relevant to the task
 
 ## Contribution rules
 
@@ -24,6 +25,9 @@ Help maintain a release-agnostic, clinician-owned blueprint for a medical knowle
 - Never automate credential entry, MFA bypass, CAPTCHA bypass, or subscription circumvention.
 - Keep browser extraction narrow and task-specific.
 - Treat historical internal APIs as unstable observations, not supported integrations.
+- Do not put a personal vault, human account password, MFA secret, cookie archive, or licensed content in a repository secret or cloud-task environment.
+- Do not treat an ephemeral coding task as the durable vault host.
+- Leave `docs/platforms/claude.md` as a handoff until a Claude agent verifies it against current official Claude documentation.
 
 ## Change workflow
 

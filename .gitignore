@@ -1,0 +1,53 @@
+# Secrets and credentials
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.token
+auth/
+credentials/
+secrets/
+
+# Browser authentication state
+browser-data/
+browser-profile/
+browser-profiles/
+cookies*
+playwright/.auth/
+sessions/
+
+# Private knowledge and local data
+/Vault/
+/vault/
+/Vaults/
+/vaults/
+/attachments/
+/exports/
+/local-data/
+/private/
+/source-material/
+*.db
+*.sqlite*
+
+# Obsidian device-local state
+**/.obsidian/cache/
+**/.obsidian/workspace.json
+**/.obsidian/workspace-mobile.json
+**/.obsidian/plugins/*/data.json
+**/.trash/
+
+# Tooling and operating-system files
+node_modules/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+build/
+dist/
+tmp/
+*.log
+.DS_Store
+.idea/
+.vscode/

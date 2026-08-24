@@ -21,6 +21,27 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 5. Collect only the minimum page information needed for the current task.
 6. Respect subscriptions, licenses, terms, and robots/access controls.
 
+## Credential boundaries
+
+| Runtime | Allowed | Never provide |
+|---|---|---|
+| Local computer | User-authenticated browser profile; local OS protections | Password text, MFA seed, recovery code, exported cookies |
+| Private headless host | Scoped machine tokens required by the sync or narrow tool | Human website passwords or unrestricted home-directory access |
+| Cloud coding environment | Minimum scoped setup credential for public-repository development | Personal vault, licensed-site credentials, browser state, human passwords |
+| Private PearlBook tool | Tool-specific authentication and least-privilege vault path | General shell, arbitrary filesystem root, secret-store browsing |
+
+Human credentials belong in the user's password manager and should be entered by the user into the intended service. A platform secret feature does not make a human password appropriate for agent use.
+
+## Private-host hardening
+
+- Use a dedicated non-administrator account and full-disk encryption.
+- Restrict file permissions to the approved vault and tool workspace.
+- Keep the operating system, runtime, and dependencies patched.
+- Prefer an outbound-only private connection; do not expose a public shell or file browser.
+- Keep synchronization state on persistent storage and maintain an independent vault backup.
+- Avoid logging note bodies, browser data, queries containing sensitive details, or tool responses by default.
+- Test restore, session-expiry, tool-unavailable, and sync-conflict behavior.
+
 ## Medical content rules
 
 - Treat the system as educational knowledge management, not autonomous clinical decision-making.
@@ -39,7 +60,10 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 - [ ] confirm examples are synthetic or approved
 - [ ] verify licensed text is summarized rather than reproduced
 - [ ] confirm external links do not contain account or session parameters
-- [ ] choose a license
+- [ ] verify `.gitignore` covers vaults, browser state, local data, and secrets
+- [ ] enable GitHub secret scanning and push protection when available
+- [ ] require pull-request review for changes to security-sensitive adapters
+- [ ] confirm the repository license still matches the intended use
 - [ ] document vulnerability/contact handling
 
 If sensitive data is committed, rotate affected credentials immediately and remove it from the full Git history; deleting the current file is not enough.
