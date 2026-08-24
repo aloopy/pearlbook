@@ -4,6 +4,8 @@
 
 Create the vault in a normal user-owned directory. Give the agent access only to the vault and any dedicated workspace it needs. A symlink can provide a stable short path while the real vault remains in a synced or backed-up location.
 
+Codex users can run the guided `setup_pearlbook.py` script from the installed skill. It can configure an existing vault or, with confirmation, create a generic starter vault named `PearlBook`. The vault folder should normally be opened as the Codex project as well.
+
 Do not place credentials, browser profiles, or raw patient data in the vault.
 
 For an always-available private host, Obsidian documents [Obsidian Headless](https://obsidian.md/help/headless) as its automation-oriented Sync client. Review [Deployment options](deployment-options.md) before creating another vault replica.

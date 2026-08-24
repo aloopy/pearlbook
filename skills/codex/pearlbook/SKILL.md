@@ -13,7 +13,18 @@ Use the narrowest authorized path to the user's private knowledge:
 
 Do not search an entire home directory to discover a vault. The public PearlBook repository contains no personal notes.
 
-Before accessing a local vault, read `references/local-config.md` when it exists. Treat that file as private machine configuration and never copy it into a repository, response, or cloud task. If it is absent, ask the user to identify and authorize the vault path rather than discovering one broadly.
+Before accessing a local vault, read `references/local-config.md` when it exists. Treat that file as private machine configuration and never copy it into a repository, response, or cloud task.
+
+## First-run onboarding
+
+When local configuration is absent, offer two choices:
+
+1. use an existing Obsidian vault; or
+2. create a new `PearlBook` vault, recommended for beginners, at a user-approved location such as `Documents/PearlBook`.
+
+Ask before creating or modifying any folder. Do not discover a vault by searching a home directory. After the user chooses, prefer `scripts/setup_pearlbook.py` to validate the path, optionally scaffold the starter vault, and write the ignored local configuration. Never pass `--yes` until the user has explicitly confirmed creation.
+
+Explain that the private Obsidian vault folder and the Codex project should normally be the same folder. The public PearlBook repository and installed skill remain separate from the private vault.
 
 ## Workflow
 
