@@ -28,7 +28,7 @@ Start with the computer you can keep available, then choose the agent surface.
 ### If your primary computer can stay on
 
 - **Codex:** give local Codex access to the vault and a user-authenticated browser profile, then use [Codex Remote](https://learn.chatgpt.com/docs/remote) from the ChatGPT mobile app. The connected computer performs the work and must remain awake and online. See [Codex and ChatGPT](docs/platforms/codex-chatgpt.md).
-- **Claude:** use the equivalent local and remote workflow only after its current capabilities and security model have been verified against official Claude documentation. See the [Claude handoff](docs/platforms/claude.md).
+- **Claude:** run Claude Code beside the vault, then start or steer work from the Claude mobile app with Remote Control while the connected computer stays awake and online. See [Claude setup](docs/platforms/claude.md).
 
 ### If no personal computer can stay on
 
@@ -41,7 +41,7 @@ Read [Deployment options](docs/deployment-options.md) for the decision tree, bro
 
 1. Read [Architecture](docs/architecture.md).
 2. Choose an access pattern in [Deployment options](docs/deployment-options.md).
-3. For Codex, run the [guided first-run setup](docs/platforms/codex-chatgpt.md#first-run-setup), or create the vault manually with [Obsidian setup](docs/obsidian-setup.md).
+3. For Codex, run the [guided first-run setup](docs/platforms/codex-chatgpt.md#first-run-setup); for Claude, follow [Claude setup](docs/platforms/claude.md); or create the vault manually with [Obsidian setup](docs/obsidian-setup.md).
 4. Configure the [clinical topic workflow](workflows/clinical-topic.md).
 5. Add authenticated reference access with [CorePendium browser workflow](workflows/corependium-browser.md).
 6. Review [Security and clinical safety](SECURITY.md).

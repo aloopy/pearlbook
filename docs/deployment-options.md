@@ -58,7 +58,7 @@ This is simpler and narrower than running a full agent. It is well suited to vau
 If a user's normal Mac or Windows PC can remain awake and online, run the agent locally beside the vault.
 
 - **Codex:** use local vault access and a dedicated user-authenticated browser profile, then start or steer work from a phone with [Codex Remote](https://learn.chatgpt.com/docs/remote). The connected computer performs the task.
-- **Claude:** use the corresponding local and remote path only after a Claude agent verifies the current official capabilities and security model. See the [Claude handoff](platforms/claude.md).
+- **Claude:** run Claude Code locally with the vault as its working directory, then start or steer work from a phone with Remote Control; execution stays on the connected computer. See [Claude setup](platforms/claude.md).
 
 This is usually the easiest capable setup because there is no separate server or second vault replica. Its availability depends on the user's everyday computer remaining powered, connected, patched, and unlocked as required by the chosen platform.
 
