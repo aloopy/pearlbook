@@ -39,6 +39,8 @@ For access when a personal computer is unavailable, keep a synced vault on a per
 
 When supported by the product and workspace, a secure outbound tunnel can connect the private MCP server without exposing a public inbound service. See [Deployment options](../deployment-options.md).
 
+In this configuration ChatGPT is the agent and the private host is only a tool server. The host does not automatically gain ChatGPT's web tools, and ChatGPT does not automatically inherit a browser session logged in on the host. Public research remains limited to the tools and connectors available in the ChatGPT conversation. Authenticated sources require a separately designed, narrowly scoped source tool or a full agent/browser running on the host.
+
 ## Codex cloud tasks
 
 [Codex cloud](https://learn.chatgpt.com/docs/cloud) is useful for developing, testing, and reviewing the public PearlBook repository in an isolated environment. It should not be the default runtime for a private vault.

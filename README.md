@@ -18,13 +18,24 @@ PearlBook documents the architecture and operating habits behind **LangostaMD** 
 
 ## Choose a setup
 
-| Platform | Typical path | Setup guide |
-|---|---|---|
-| OpenClaw | Telegram to a dedicated home computer | [OpenClaw](docs/platforms/openclaw.md) |
-| Codex / ChatGPT | Local Codex, Codex Remote, or a private vault tool | [Codex and ChatGPT](docs/platforms/codex-chatgpt.md) |
-| Claude Code / Cowork | Platform adapter pending Claude-specific review | [Claude handoff](docs/platforms/claude.md) |
+Start with the computer you can keep available, then choose the agent surface.
 
-Read [Deployment options](docs/deployment-options.md) before choosing between a local, remote-to-computer, or always-available private-host configuration.
+### If you have an extra computer that can stay on
+
+- **Run an agent on it:** install OpenClaw, keep a local Obsidian vault replica on the computer, and contact the agent through a supported messaging app. The agent can also use a dedicated browser profile that the user has logged into for licensed or otherwise authenticated knowledge sources. See [OpenClaw](docs/platforms/openclaw.md).
+- **Use it only as a private vault host:** run Obsidian Headless plus a narrow PearlBook MCP server, then access those tools from a supported ChatGPT or Claude conversation. In this pattern the host exposes vault operations; it does not automatically provide an authenticated browser or autonomous agent. See [Deployment options](docs/deployment-options.md#pattern-2-extra-computer-as-a-private-tool-host).
+
+### If your primary computer can stay on
+
+- **Codex:** give local Codex access to the vault and a user-authenticated browser profile, then use [Codex Remote](https://learn.chatgpt.com/docs/remote) from the ChatGPT mobile app. The connected computer performs the work and must remain awake and online. See [Codex and ChatGPT](docs/platforms/codex-chatgpt.md).
+- **Claude:** use the equivalent local and remote workflow only after its current capabilities and security model have been verified against official Claude documentation. See the [Claude handoff](docs/platforms/claude.md).
+
+### If no personal computer can stay on
+
+- **Private tool-host VM:** run Obsidian Headless plus a narrow PearlBook MCP server. ChatGPT or Claude supplies the agent and whatever web tools its conversation surface supports. Authenticated browsing on the VM requires separately designed source tools; it is not provided by MCP itself.
+- **Agent-host VM:** run OpenClaw on the VM with the vault and, where practical and permitted, a dedicated browser session authenticated interactively by the user. Contact it through a supported messaging app. This provides more capability but adds more setup, maintenance, and security responsibility.
+
+Read [Deployment options](docs/deployment-options.md) for the decision tree, browser boundaries, and security tradeoffs.
 
 ## Start here
 
