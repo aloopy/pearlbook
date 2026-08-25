@@ -1,15 +1,75 @@
 # Deployment options
 
-PearlBook separates the **public framework** from the **private knowledge store**. The agent may run locally, on an always-on computer, or through a cloud conversation surface, but personal notes remain in a user-controlled Obsidian vault.
+PearlBook separates the **public framework** from the **private knowledge store**. Personal notes remain in a user-controlled Obsidian vault. Start by deciding which computer can remain available, then decide whether that computer will run a full agent or only expose narrow vault tools.
 
-## Choose an access pattern
+## Agent host versus tool host
 
-| Pattern | Phone access | Vault location | Best fit | Main limitation |
-|---|---|---|---|---|
-| Local agent app | Indirect | Current computer | Editing and setup | Computer must be in use |
-| Remote control of a personal computer | Yes | Current computer | Low-friction mobile access | Computer must remain awake and online |
-| Always-on home computer | Yes | Dedicated computer | Open-source, user-controlled operation | Most setup and maintenance |
-| Private headless host | Yes | Persistent private host | Cloud availability without a desktop session | Requires secure host and tool configuration |
+These are different architectures even when they use the same computer or VM.
+
+| Capability | Agent host | Tool host |
+|---|---|---|
+| Example | OpenClaw with messaging | Obsidian Headless plus PearlBook MCP |
+| Where reasoning runs | On the host agent | In ChatGPT or Claude |
+| Vault search and reviewable edits | Local | Through narrow MCP tools |
+| Public web research | Host agent's configured tools | Conversation surface's available tools |
+| Reuse a browser logged into a licensed source | Yes, when a browser is installed and the user authenticated it | No, not unless explicit source/browser tools are added to the server |
+| General autonomous work on the host | Yes, within configured permissions | No; MCP only exposes the tools that were implemented |
+
+An MCP server is a tool provider, not an agent. A VM running only Obsidian Headless and PearlBook MCP can search and update the vault, but it does not independently browse, plan, or reuse an authenticated browser profile. ChatGPT or Claude remains the agent and can use only the tools available on that conversation surface plus the narrow MCP tools the host exposes.
+
+## Choose by the computer you can keep available
+
+### Pattern 1: extra computer as an agent host
+
+Run OpenClaw on a dedicated home computer and contact it through a supported messaging app such as Telegram.
+
+```text
+Phone / messaging app
+         |
+         v
+OpenClaw on always-on computer
+   |-- local Obsidian vault replica
+   |-- dedicated authenticated browser profile
+   `-- public research tools
+```
+
+This is the most open and controllable option. It can combine the local vault with sources that are impractical or impermissible to copy into the vault, because the agent can navigate a browser session that the user authenticated interactively. It is also the most setup-intensive home configuration. See [OpenClaw setup](platforms/openclaw.md).
+
+### Pattern 2: extra computer as a private tool host
+
+Run Obsidian Headless plus a narrow PearlBook MCP server. ChatGPT or Claude performs the reasoning and calls the private vault tools.
+
+```text
+ChatGPT or Claude on phone
+         |
+         v
+Secure private MCP connection
+         |
+         v
+Always-on tool host
+   |-- PearlBook MCP
+   `-- Obsidian Headless --> Obsidian Sync
+```
+
+This is simpler and narrower than running a full agent. It is well suited to vault search, reading, source-linked synthesis, and preview-before-apply edits. Browsing is limited to the public web, connectors, and browser capabilities available to the ChatGPT or Claude conversation unless the MCP server deliberately exposes additional source-specific tools. It cannot automatically reuse a browser login stored on the host.
+
+### Pattern 3: primary computer as an agent host
+
+If a user's normal Mac or Windows PC can remain awake and online, run the agent locally beside the vault.
+
+- **Codex:** use local vault access and a dedicated user-authenticated browser profile, then start or steer work from a phone with [Codex Remote](https://learn.chatgpt.com/docs/remote). The connected computer performs the task.
+- **Claude:** use the corresponding local and remote path only after a Claude agent verifies the current official capabilities and security model. See the [Claude handoff](platforms/claude.md).
+
+This is usually the easiest capable setup because there is no separate server or second vault replica. Its availability depends on the user's everyday computer remaining powered, connected, patched, and unlocked as required by the chosen platform.
+
+### Pattern 4: private VM when no personal computer can stay on
+
+A private VM replaces the always-on physical computer. It can be configured in either role:
+
+1. **Tool-host VM:** Obsidian Headless plus PearlBook MCP. ChatGPT or Claude is the agent. This gives stable vault availability but no authenticated VM browsing by default.
+2. **Agent-host VM:** OpenClaw plus the vault and optional browser automation. This can support authenticated sources after the user logs into a dedicated browser session, but it requires more operating-system, browser, credential, update, backup, and monitoring work.
+
+The VM is usually the most reliable option for users willing to pay and maintain it. Treat it as a sensitive endpoint: the synchronized vault exists in decrypted form while the host is running.
 
 Obsidian Sync replicates vault files between authorized devices. It is not a general-purpose hosted REST API for agents. Obsidian's supported automation path is [Obsidian Headless](https://obsidian.md/help/headless), currently documented as open beta, which can sync a vault on a persistent machine without the desktop application.
 
@@ -65,7 +125,17 @@ Persistent private host
   `-- approved vault directory
 ```
 
-A private MCP server is one portable way to implement the narrow tool. When supported by the chosen OpenAI product and workspace, OpenAI's [Secure MCP Tunnel](https://learn.chatgpt.com/blog/connect-private-mcp-servers-to-openai-products) provides an outbound-only connection from the private network rather than requiring a public inbound endpoint.
+A private MCP server is one portable way to implement the narrow tool. When supported by the chosen OpenAI product and workspace, OpenAI's [Secure MCP Tunnel](https://developers.openai.com/api/docs/guides/secure-mcp-tunnels) provides an outbound-only connection from the private network rather than requiring a public inbound endpoint. The tunnel transports MCP calls; it does not run the agent, sync the vault, or add browser capabilities.
+
+## Browsing boundary
+
+Keep three different browser paths explicit:
+
+1. **Browser beside a local agent:** Codex, Claude, or OpenClaw may use a local browser profile that the user authenticated, subject to platform permissions and the source's terms.
+2. **Browser supplied by the conversation surface:** ChatGPT or Claude may provide public web search, browser use, or connectors. Those capabilities run outside the private host and do not inherit the host's logged-in browser session.
+3. **Source tools exposed through MCP:** a private host may expose narrowly designed tools for approved sources. This is additional implementation work and should not become an unrestricted browser proxy.
+
+For licensed references, do not automate passwords, MFA, CAPTCHA, or session export. Prefer interactive user login, narrow retrieval, and source linking without copying a paywalled corpus into the vault.
 
 The Codex/ChatGPT skill includes a bounded stdio MCP implementation and a guided
 [headless setup runbook](../skills/codex/pearlbook/references/headless-chatgpt.md).
