@@ -78,7 +78,7 @@ def safe_path(raw_path: str) -> Path:
     return path
 
 
-def markdown_config(vault_name: str, vault_path: Path) -> str:
+def markdown_config(vault_name: str, vault_path: Path, access_mode: str) -> str:
     return "\n".join(
         (
             "# Local PearlBook configuration",
@@ -86,6 +86,7 @@ def markdown_config(vault_name: str, vault_path: Path) -> str:
             "```yaml",
             f"vault_name: {json.dumps(vault_name)}",
             f"vault_path: {json.dumps(str(vault_path))}",
+            f"access_mode: {access_mode}",
             "default_access: read_only",
             "note_changes: explicit_request_only",
             "link_style: obsid_net",
@@ -148,6 +149,12 @@ def parse_args() -> argparse.Namespace:
     mode.add_argument("--existing", metavar="PATH")
     mode.add_argument("--create", metavar="PATH")
     parser.add_argument("--vault-name")
+    parser.add_argument(
+        "--access",
+        choices=("local", "headless"),
+        default="local",
+        help="record whether this path is a local vault or a Headless Sync replica",
+    )
     parser.add_argument("--config", type=Path, default=default_config_path())
     parser.add_argument(
         "--scaffold-existing",
@@ -204,15 +211,24 @@ def main() -> None:
         if mode == "create" or args.scaffold_existing:
             scaffold(vault_path)
 
-        write_config(config_path, markdown_config(vault_name, vault_path), args.force)
+        write_config(
+            config_path,
+            markdown_config(vault_name, vault_path, args.access),
+            args.force,
+        )
 
         print("PearlBook is ready.")
         print(f"Vault folder: {vault_path}")
         print("Next steps:")
-        print("  1. In Obsidian, choose Open folder as vault and select this folder.")
-        print("  2. In Codex, open this same folder as the project.")
-        print("  3. Start a new task and ask PearlBook to find or create a learning note.")
-        print("  4. Optionally enable Obsidian Sync for access on other devices.")
+        if args.access == "local":
+            print("  1. In Obsidian, choose Open folder as vault and select this folder.")
+            print("  2. In Codex, open this same folder as the project.")
+            print("  3. Start a new task and ask PearlBook to find or create a learning note.")
+            print("  4. Optionally enable Obsidian Sync for access on other devices.")
+        else:
+            print("  1. Do not open this replica with Obsidian desktop Sync on this host.")
+            print("  2. Complete references/headless-chatgpt.md with the user.")
+            print("  3. Keep initial Headless Sync and MCP access read-only.")
     except (OSError, ValueError) as exc:
         print(f"setup_pearlbook.py: error: {exc}", file=sys.stderr)
         raise SystemExit(2) from exc

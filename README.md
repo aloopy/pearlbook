@@ -36,6 +36,11 @@ Read [Deployment options](docs/deployment-options.md) before choosing between a 
 6. Review [Security and clinical safety](SECURITY.md).
 7. If migrating legacy content, see the [Glass Health case study](workflows/glass-migration.md).
 
+You can also tell a compatible agent **“Set up PearlBook”**. The PearlBook skill
+will choose between local, phone-to-computer, and always-available ChatGPT access,
+then resume from the first incomplete setup stage. Human logins and workspace
+authorization always remain interactive.
+
 ## Design principles
 
 - **Clinician-owned:** Markdown, media, and metadata remain locally inspectable.
@@ -48,7 +53,10 @@ Read [Deployment options](docs/deployment-options.md) before choosing between a 
 
 ## Non-goals
 
-PearlBook does not host personal vaults, redistribute CorePendium/EM:RAP content, automate credential entry, provide a prebuilt medical corpus, or replace clinician judgment. It is infrastructure for personal learning and knowledge management.
+PearlBook does not host personal vaults, provide a managed always-on server,
+redistribute CorePendium/EM:RAP content, automate credential entry, provide a
+prebuilt medical corpus, or replace clinician judgment. It is infrastructure for
+personal learning and knowledge management.
 
 ## Project status
 

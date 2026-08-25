@@ -39,6 +39,28 @@ For access when a personal computer is unavailable, keep a synced vault on a per
 
 When supported by the product and workspace, a secure outbound tunnel can connect the private MCP server without exposing a public inbound service. See [Deployment options](../deployment-options.md).
 
+### Guided headless setup
+
+The PearlBook skill now contains a staged agent runbook and a bundled stdio MCP
+server with bounded search/read plus preview-and-confirm writes. Ask the agent:
+
+> Set up PearlBook for always-available ChatGPT access.
+
+The agent should read
+[`references/headless-chatgpt.md`](../../skills/codex/pearlbook/references/headless-chatgpt.md),
+resume from the first incomplete stage, and pause while the user enters every
+credential directly. The workflow verifies Headless Sync, tests the MCP tools with
+MCP Inspector, connects an outbound Secure MCP Tunnel, and finally tests search,
+read, preview, approval, apply, and Sync from a new ChatGPT conversation.
+
+Initial host provisioning requires terminal or remote-desktop access. Once the
+host is configured and its services remain online, ordinary PearlBook use can be
+performed from ChatGPT on a mobile device.
+
+This path is currently a developer-mode, single-user setup. It is not a public
+hosted PearlBook service, and availability depends on OpenAI Platform tunnel and
+ChatGPT workspace permissions.
+
 ## Codex cloud tasks
 
 [Codex cloud](https://learn.chatgpt.com/docs/cloud) is useful for developing, testing, and reviewing the public PearlBook repository in an isolated environment. It should not be the default runtime for a private vault.
