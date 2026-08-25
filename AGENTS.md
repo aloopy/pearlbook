@@ -27,7 +27,7 @@ Help maintain a release-agnostic, clinician-owned blueprint for a medical knowle
 - Treat historical internal APIs as unstable observations, not supported integrations.
 - Do not put a personal vault, human account password, MFA secret, cookie archive, or licensed content in a repository secret or cloud-task environment.
 - Do not treat an ephemeral coding task as the durable vault host.
-- Leave `docs/platforms/claude.md` as a handoff until a Claude agent verifies it against current official Claude documentation.
+- `docs/platforms/claude.md` was verified against official Claude documentation on 2026-08-24; re-verify platform claims against current official documentation before materially changing them.
 
 ## Change workflow
 
