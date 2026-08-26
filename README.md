@@ -7,6 +7,28 @@ PearlBook documents the architecture and operating habits behind **LangostaMD** 
 > [!IMPORTANT]
 > This repository contains the **method, adapters, and sanitized examples**. It does not contain anyone's personal notes, vault, credentials, browser state, patient information, or licensed reference content.
 
+## Start here
+
+### For people
+
+1. **Create or choose the private vault.** Use an existing Obsidian vault or create a new `PearlBook` vault with [Obsidian setup](docs/obsidian-setup.md). Keep it separate from this public repository.
+2. **Choose where PearlBook will run.** Use your primary computer, an extra always-on computer, or a private VM. [Deployment options](docs/deployment-options.md) explains what remains available when a computer is offline.
+3. **Configure one primary agent.** Follow [OpenClaw](docs/platforms/openclaw.md), [Codex/ChatGPT](docs/platforms/codex-chatgpt.md), or [Claude](docs/platforms/claude.md). Do not install all three by default.
+4. **Verify the core workflow.** Confirm that the agent can search a known note, read it, return an exact clickable link, and preview an authorized edit before applying it.
+5. **Review the boundaries.** Before enabling remote access or adding private sources, read [Architecture](docs/architecture.md), the [clinical topic workflow](workflows/clinical-topic.md), and [Security and clinical safety](SECURITY.md).
+6. **Add phone or always-available access only after the core works.** Remote control, messaging, Headless Sync, MCP, and VMs are deployment layers; none replaces the vault or supplies an agent by itself.
+7. **Add optional content last.** Migrate an [existing library](workflows/migrate-existing-library.md) if needed, then add institutional or licensed sources useful to your field. [CorePendium](workflows/corependium-browser.md) and the [Glass Health migration](workflows/glass-migration.md) are examples, not requirements.
+
+If you use Codex, you can tell the agent **“Set up PearlBook.”** The guided skill resumes from the first incomplete stage and pauses for every folder choice, login, credential, and workspace authorization that requires you.
+
+### For agents
+
+1. Read [`AGENTS.md`](AGENTS.md), [Architecture](docs/architecture.md), and [Security](SECURITY.md).
+2. Identify the user's chosen platform and host pattern before changing configuration. If neither is chosen, use [Deployment options](docs/deployment-options.md) to help the user choose before applying adapter-specific steps.
+3. Read only the matching platform adapter and the workflow relevant to the task.
+4. Treat CorePendium, Glass Health, emergency-medicine folders, and LangostaMD conventions as examples unless the user explicitly selects them.
+5. Keep the public framework, private vault, credentials, browser state, and licensed content in their documented boundaries.
+
 ## What this repository covers
 
 - Setting up an Obsidian vault as the agent's durable knowledge base
@@ -17,7 +39,7 @@ PearlBook documents the architecture and operating habits behind **LangostaMD** 
 - Portable capability contracts for adapting the design to other agents and specialties
 - Sanitized templates and checks that keep the system predictable
 
-## Choose an agent surface
+## Compare the agent options
 
 The three adapters implement the same PearlBook contract but are not interchangeable deployment instructions.
 
@@ -29,49 +51,26 @@ The three adapters implement the same PearlBook contract but are not interchange
 
 Read the [platform adapter index](docs/platforms/README.md) before combining components. A hybrid setup can be useful, but each additional agent, vault replica, browser profile, or write path adds conflict and security risk.
 
-## Choose a setup
+## Choose by computer availability
 
-Start with the computer you can keep available, then choose the agent surface.
+### Primary computer stays on
 
-### 1. If you have an extra computer that can stay on
+- **Codex:** work locally beside the vault and use [Codex Remote](https://learn.chatgpt.com/docs/remote) from the ChatGPT mobile app.
+- **Claude:** work locally beside the vault and use Remote Control from the Claude mobile app.
 
-- **Run an agent on it:** install OpenClaw, keep a local Obsidian vault replica on the computer, and contact the agent through a supported messaging app. If needed, the agent can also use a dedicated browser profile that the user has logged into for selected licensed or institutional sources. See [OpenClaw](docs/platforms/openclaw.md).
-- **Use it only as a private vault host:** run Obsidian Headless plus a narrow PearlBook MCP server, then access those tools from a supported ChatGPT or Claude conversation. In this pattern the host exposes vault operations; it does not automatically provide an authenticated browser or autonomous agent. See [Deployment options](docs/deployment-options.md#pattern-2-extra-computer-as-a-private-tool-host).
+The connected computer performs the work and must remain awake and online. An authenticated browser is optional.
 
-### 2. If your primary computer can stay on
+### Extra computer stays on
 
-- **Codex:** give local Codex access to the vault and, if needed, an approved user-authenticated browser profile. Use [Codex Remote](https://learn.chatgpt.com/docs/remote) from the ChatGPT mobile app. The connected computer performs the work and must remain awake and online. See [Codex and ChatGPT](docs/platforms/codex-chatgpt.md).
-- **Claude:** run Claude Code beside the vault and optionally connect an approved browser integration. Start or steer work from the Claude mobile app with Remote Control while the connected computer stays awake and online. See [Claude setup](docs/platforms/claude.md).
+- **Full agent host:** run OpenClaw with a local vault replica and contact it through a supported messaging app.
+- **Private tool host:** run Obsidian Headless plus narrow PearlBook MCP tools, then call them from ChatGPT or Claude. The host exposes vault operations; it does not automatically provide an agent or authenticated browser.
 
-### 3. If no personal computer can stay on
+### No personal computer stays on
 
-- **Private tool-host VM:** run Obsidian Headless plus a narrow PearlBook MCP server. ChatGPT or Claude supplies the agent and whatever web tools its conversation surface supports. Authenticated browsing on the VM requires separately designed source tools; it is not provided by MCP itself.
-- **Agent-host VM:** run OpenClaw on the VM with the vault and, where practical and permitted, a dedicated browser session authenticated interactively by the user. Contact it through a supported messaging app. This provides more capability but adds more setup, maintenance, and security responsibility.
+- **Private tool-host VM:** run Obsidian Headless plus PearlBook MCP; ChatGPT or Claude remains the agent.
+- **Agent-host VM:** run OpenClaw with the vault and any explicitly configured browser or research tools.
 
-Read [Deployment options](docs/deployment-options.md) for the decision tree, browser boundaries, and security tradeoffs.
-
-## Start here
-
-### For people
-
-1. Read [Architecture](docs/architecture.md).
-2. Choose an access pattern in [Deployment options](docs/deployment-options.md).
-3. Choose exactly one primary adapter from [OpenClaw](docs/platforms/openclaw.md), [Codex/ChatGPT](docs/platforms/codex-chatgpt.md), or [Claude](docs/platforms/claude.md).
-4. Create or connect the vault with [Obsidian setup](docs/obsidian-setup.md).
-5. Configure the [clinical topic workflow](workflows/clinical-topic.md).
-6. Review [Security and clinical safety](SECURITY.md).
-7. Add an authenticated reference only if useful to your field. [CorePendium](workflows/corependium-browser.md) is an optional emergency-medicine example.
-8. If you already have a knowledge library, follow [Migrate an existing library](workflows/migrate-existing-library.md). The [Glass Health migration](workflows/glass-migration.md) is one case study, not a prerequisite.
-
-### For agents
-
-1. Read [`AGENTS.md`](AGENTS.md), [Architecture](docs/architecture.md), and [Security](SECURITY.md).
-2. Identify the user's chosen platform and host pattern before changing configuration. If neither is chosen, use [Deployment options](docs/deployment-options.md) to help the user choose before applying adapter-specific steps.
-3. Read only the matching platform adapter and the workflow relevant to the task.
-4. Treat CorePendium, Glass Health, emergency-medicine folders, and LangostaMD conventions as examples unless the user explicitly selects them.
-5. Keep the public framework, private vault, credentials, browser state, and licensed content in their documented boundaries.
-
-For Codex, the guided skill can also be invoked by telling a compatible agent **“Set up PearlBook.”** It will choose between local, phone-to-computer, and always-available ChatGPT access, then resume from the first incomplete setup stage. Human logins and workspace authorization always remain interactive.
+A VM improves availability but adds cost, maintenance, and responsibility for a decrypted vault replica. Read [Deployment options](docs/deployment-options.md) before choosing this route.
 
 ## Design principles
 
