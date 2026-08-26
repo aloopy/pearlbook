@@ -33,17 +33,17 @@ Read the [platform adapter index](docs/platforms/README.md) before combining com
 
 Start with the computer you can keep available, then choose the agent surface.
 
-### If you have an extra computer that can stay on
+### 1. If you have an extra computer that can stay on
 
 - **Run an agent on it:** install OpenClaw, keep a local Obsidian vault replica on the computer, and contact the agent through a supported messaging app. If needed, the agent can also use a dedicated browser profile that the user has logged into for selected licensed or institutional sources. See [OpenClaw](docs/platforms/openclaw.md).
 - **Use it only as a private vault host:** run Obsidian Headless plus a narrow PearlBook MCP server, then access those tools from a supported ChatGPT or Claude conversation. In this pattern the host exposes vault operations; it does not automatically provide an authenticated browser or autonomous agent. See [Deployment options](docs/deployment-options.md#pattern-2-extra-computer-as-a-private-tool-host).
 
-### If your primary computer can stay on
+### 2. If your primary computer can stay on
 
 - **Codex:** give local Codex access to the vault and, if needed, an approved user-authenticated browser profile. Use [Codex Remote](https://learn.chatgpt.com/docs/remote) from the ChatGPT mobile app. The connected computer performs the work and must remain awake and online. See [Codex and ChatGPT](docs/platforms/codex-chatgpt.md).
 - **Claude:** run Claude Code beside the vault and optionally connect an approved browser integration. Start or steer work from the Claude mobile app with Remote Control while the connected computer stays awake and online. See [Claude setup](docs/platforms/claude.md).
 
-### If no personal computer can stay on
+### 3. If no personal computer can stay on
 
 - **Private tool-host VM:** run Obsidian Headless plus a narrow PearlBook MCP server. ChatGPT or Claude supplies the agent and whatever web tools its conversation surface supports. Authenticated browsing on the VM requires separately designed source tools; it is not provided by MCP itself.
 - **Agent-host VM:** run OpenClaw on the VM with the vault and, where practical and permitted, a dedicated browser session authenticated interactively by the user. Contact it through a supported messaging app. This provides more capability but adds more setup, maintenance, and security responsibility.
