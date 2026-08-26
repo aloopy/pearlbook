@@ -2,9 +2,15 @@
 
 Codex and ChatGPT can share the same PearlBook workflow while using different access patterns. The public repository contains the method and adapter; it does not contain the user's vault.
 
+Use this adapter for one of three distinct paths: local Codex beside the vault, Codex Remote steering that computer from a phone, or ChatGPT calling narrow vault tools on a persistent private host. Do not assume that ChatGPT can read a local vault merely because Codex can.
+
+This adapter was verified against official OpenAI documentation on 2026-08-26. Platform availability depends on rollout and workspace settings; re-verify the linked documentation before relying on account-specific features.
+
 ## Option 1: local Codex
 
 Run Codex desktop or CLI on the computer that holds the Obsidian vault. Grant access only to the vault and a dedicated workspace. This provides the simplest file-level search, reviewable edits, and source linking.
+
+An authenticated browser is optional. If the user needs a licensed or institutional source, they log into an approved local browser profile interactively and grant only the access needed for that source. CorePendium is one emergency-medicine example, not a required integration.
 
 ### First-run setup
 
@@ -81,3 +87,7 @@ OpenAI documents in [Cloud environments](https://learn.chatgpt.com/docs/environm
 ## Shared skill and future plugin
 
 The PearlBook skill defines the behavioral contract. A future Codex/ChatGPT plugin can bundle that skill with the private MCP connector. Keep transport configuration and credentials out of the skill and out of this repository.
+
+## Recovery behavior
+
+If local Codex, Remote, the private host, the MCP tool, or an optional authenticated source is unavailable, state which component was not consulted. Never imply that ChatGPT inherited a host browser session or that a cloud task accessed the private vault unless that access was explicitly configured and verified.

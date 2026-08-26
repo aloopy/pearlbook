@@ -1,6 +1,8 @@
 # Glass Health to Obsidian: migration case study
 
-This is a historical account of one personal notebook migration performed in February 2026. The private source data and conversion scripts are not assumed to be available, and the described internal endpoints may change or disappear.
+This is an optional historical case study, not a standard PearlBook setup step. Most users will migrate from another application or begin with an empty vault; start with the generic [migration workflow](migrate-existing-library.md).
+
+The account below describes one personal notebook migration performed in February 2026. The private source data and conversion scripts are not assumed to be available, and the described internal endpoints may change or disappear.
 
 Before attempting a similar export, confirm that you own or may export the material and that the method complies with current terms and law. Prefer an official export when available.
 

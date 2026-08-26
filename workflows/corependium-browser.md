@@ -1,8 +1,8 @@
 # CorePendium browser workflow
 
-CorePendium is a licensed, JavaScript-rendered reference. Public web fetches may see only an application shell. Pearlbook therefore uses a browser profile that the clinician authenticates manually.
+This is an **optional emergency-medicine example**, not a PearlBook dependency. CorePendium is a licensed, JavaScript-rendered reference. Public web fetches may see only an application shell. A PearlBook user who selects it can therefore use a browser profile that the clinician authenticates manually.
 
-This guide describes behavior, not a fixed OpenClaw release or command syntax.
+The same trust boundary can be adapted to other licensed or institutional sources when their terms permit it. This guide describes behavior, not a fixed agent release or command syntax.
 
 ## Trust boundary
 
