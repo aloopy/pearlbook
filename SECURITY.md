@@ -8,7 +8,7 @@
 - raw private chat/session exports
 - a personal vault unless each file is intentionally approved for publication
 - copied chapters, screenshots, transcripts, or bulk-derived content from licensed references
-- private source exports such as the raw Glass notebook JSON
+- private source exports, including raw Notion, Evernote, Apple Notes, or Glass migration data
 
 Use synthetic or thoroughly de-identified examples. “Removing the name” is not sufficient de-identification when dates, locations, images, or rare events remain identifying.
 

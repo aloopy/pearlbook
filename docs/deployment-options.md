@@ -8,7 +8,7 @@ These are different architectures even when they use the same computer or VM.
 
 | Capability | Agent host | Tool host |
 |---|---|---|
-| Example | OpenClaw with messaging | Obsidian Headless plus PearlBook MCP |
+| Example | OpenClaw with a messaging adapter | Obsidian Headless plus PearlBook MCP |
 | Where reasoning runs | On the host agent | In ChatGPT or Claude |
 | Vault search and reviewable edits | Local | Through narrow MCP tools |
 | Public web research | Host agent's configured tools | Conversation surface's available tools |
@@ -21,19 +21,19 @@ An MCP server is a tool provider, not an agent. A VM running only Obsidian Headl
 
 ### Pattern 1: extra computer as an agent host
 
-Run OpenClaw on a dedicated home computer and contact it through a supported messaging app such as Telegram.
+Run OpenClaw on a dedicated home computer and contact it through a supported messaging app chosen and secured by the user. Telegram is one possible adapter, not a requirement.
 
 ```text
-Phone / messaging app
+Phone / configured messaging app
          |
          v
 OpenClaw on always-on computer
    |-- local Obsidian vault replica
-   |-- dedicated authenticated browser profile
-   `-- public research tools
+   |-- optional authenticated browser profile
+   `-- optional public research tools
 ```
 
-This is the most open and controllable option. It can combine the local vault with sources that are impractical or impermissible to copy into the vault, because the agent can navigate a browser session that the user authenticated interactively. It is also the most setup-intensive home configuration. See [OpenClaw setup](platforms/openclaw.md).
+This is the most open and controllable option. When needed, it can combine the local vault with sources that are impractical or impermissible to copy into the vault, because the agent can navigate a browser session that the user authenticated interactively. It is also the most setup-intensive home configuration. See [OpenClaw setup](platforms/openclaw.md).
 
 ### Pattern 2: extra computer as a private tool host
 

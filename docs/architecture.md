@@ -13,8 +13,8 @@ Conversation surface
    v
 Medical knowledge agent
    |-- local files or narrow tool ---> private Obsidian vault replica
-   |-- authenticated browser --------> CorePendium / licensed references
-   |-- public research --------------> primary and reputable sources
+   |-- optional source adapter ------> institutional / licensed references
+   |-- optional public research -----> primary and reputable sources
    `-- version control -------------> workflow docs and non-private tooling
 ```
 
@@ -29,20 +29,19 @@ Do not use an ephemeral cloud coding task as the durable vault host. See [Deploy
 
 ## Capability contract
 
-An implementation needs these capabilities:
+Every implementation needs the vault capabilities below. Source integrations are optional and should be added only when they serve the user's field and workflow.
 
-| Capability | Required behavior |
-|---|---|
-| File discovery | Recursively find Markdown, Canvas, templates, and attachments |
-| Content search | Search titles, aliases, tags, and note bodies quickly |
-| Safe editing | Preserve unrelated content and produce inspectable diffs |
-| Browser profiles | Reuse a clinician-authenticated local profile |
-| Page inspection | Read rendered pages and links, including JavaScript applications |
-| Narrow browser actions | Navigate, search, and open sources without scripting credentials |
-| Public research | Find current primary/authoritative sources when licensed material is insufficient |
-| Link generation | Return a clickable link to the exact vault note |
-| Auditability | Record sources, note paths, and material changes |
-| Human handoff | Stop for login, MFA, CAPTCHA, uncertainty, or unsafe external action |
+| Layer | Capability | Required behavior |
+|---|---|---|
+| Core | File discovery | Recursively find Markdown, Canvas, templates, and attachments |
+| Core | Content search | Search titles, aliases, tags, and note bodies quickly |
+| Core | Safe editing | Preserve unrelated content and produce inspectable diffs |
+| Core | Link generation | Return a clickable link or exact path to the vault note |
+| Core | Auditability | Record sources, note paths, and material changes |
+| Core | Human handoff | Stop for uncertainty, unsafe external action, or missing authorization |
+| Optional source adapter | Authenticated browser | Reuse a clinician-authenticated local profile without handling credentials |
+| Optional source adapter | Page inspection and navigation | Read rendered pages and use narrow actions without scripting credentials |
+| Optional public research | Current evidence search | Find primary or authoritative sources appropriate to the question |
 
 Map these capabilities to the current platform's tools. Avoid making the workflow depend on command names, tab indices, generated element IDs, or one model provider.
 
@@ -69,18 +68,20 @@ Map these capabilities to the current platform's tools. Avoid making the workflo
 
 1. Classify the request: answer only, update an existing note, create a note, or build a visual.
 2. Search the vault and inspect the closest relevant note.
-3. Open the relevant CorePendium chapter in the authenticated browser and read it before drafting.
-4. Supplement with current primary or authoritative public sources when needed.
-5. Produce an ED-focused answer.
+3. Decide which configured sources, if any, are needed for the question.
+4. Read those sources before drafting; verify time-sensitive or high-risk claims with current authoritative evidence.
+5. Produce an answer at the user's specialty and intended level of detail.
 6. Edit the vault only when requested or when the configured workflow explicitly permits it.
 7. Validate links and attachments.
-8. Return the answer plus a clickable link to the exact note.
+8. Return the answer plus a clickable link or exact path to the note.
+
+For an emergency-medicine user, CorePendium may be one configured licensed source. It is an adapter example, not a PearlBook dependency.
 
 ## Portability strategy
 
 Keep two layers separate:
 
-- **Workflow layer:** invariants such as “vault before web,” “human login,” and “confirm sources before editing.”
+- **Workflow layer:** invariants such as “vault before external search,” “source before synthesis,” “human login,” and “confirm sources before editing.”
 - **Adapter layer:** current commands or APIs that implement search, browser snapshots, file edits, and messaging.
 
 When a platform changes, update only the adapter notes. The clinical workflow and vault remain stable.

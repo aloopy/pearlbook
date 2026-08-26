@@ -12,30 +12,26 @@ For an always-available private host, Obsidian documents [Obsidian Headless](htt
 
 ## 2. Recommended structure
 
+The guided starter uses a specialty-neutral structure:
+
 ```text
 Vault/
-├── EM/
-│   ├── Cardiovascular/
-│   ├── Gastrointestinal/
-│   ├── Neurologic/
-│   ├── Pediatrics/
-│   ├── Procedures/
-│   └── Toxicology/
+├── Topics/
 ├── Cases/
 ├── Pearls/
-├── Spanish/
+├── Sources/
 ├── Templates/
 ├── attachments/
 └── Inbox/
 ```
 
-Adapt taxonomy to the clinician's mental model. Folder names are less important than consistency, searchable titles, aliases, and cross-links.
+Adapt taxonomy to the clinician's field and mental model. An emergency-medicine user might organize `Topics/` into cardiovascular, neurologic, pediatrics, procedures, and toxicology; another specialty should use its own natural categories. Folder names are less important than consistency, searchable titles, aliases, and cross-links.
 
 ## 3. Note types
 
 ### Topic notes
 
-Long-lived clinical subjects. Keep them ED-focused and easy to scan:
+Long-lived clinical subjects. Keep them specialty-focused and easy to scan:
 
 - recognition and phenotype
 - immediate actions
@@ -53,9 +49,9 @@ One question or teaching point per note. Use these when a comprehensive review w
 
 De-identified learning records. Never commit PHI. Capture the diagnostic pivot, management lesson, and links to durable topic notes.
 
-### Medical Spanish
+### Specialty or language collections
 
-Natural, practical ED phrases grouped by scenario, with both clinician prompts and likely patient responses.
+Optional collections can hold institutional pathways, procedural checklists, teaching material, or practical language resources. These folders are user choices, not required PearlBook structure.
 
 ### Canvas
 
@@ -70,19 +66,19 @@ A minimal topic template:
 title: "Topic"
 aliases: []
 tags:
-  - emergency-medicine
+  - clinical-knowledge
 status: active
 updated: YYYY-MM-DD
 ---
 
-> [!tip] CorePendium
-> [Main chapter](https://www.emrap.org/corependium/chapter/...)
+> [!source] Primary reference
+> [Source title](https://example.org/source)
 
 # Topic
 
 ## Recognition
 
-## ED actions
+## Actions
 
 ## Pitfalls
 
@@ -92,6 +88,8 @@ updated: YYYY-MM-DD
 ```
 
 Imported notes may also retain provenance fields such as `source`, `source_id`, and original creation/update dates.
+
+Emergency-medicine users may add a CorePendium callout or EM-specific headings. Those are optional conventions rather than requirements of the base template.
 
 ## 5. Attachments and links
 

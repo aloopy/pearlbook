@@ -2,6 +2,8 @@
 
 Claude Code and claude.ai can implement the PearlBook workflow with the same separation used elsewhere in this repository: the public framework stays in this repo, and the private vault stays on machines the clinician controls.
 
+Use this adapter for one of three distinct paths: local Claude Code beside the vault, Remote Control steering that computer from a phone, or claude.ai calling narrow vault tools on a persistent private host. Do not assume that claude.ai can read a local vault merely because Claude Code can.
+
 This adapter was drafted and verified by a Claude agent against official Claude documentation on 2026-08-24. Platform capabilities, plans, and defaults change; re-verify the linked documentation before relying on plan- or version-specific details.
 
 ## Option 1: local Claude Code
@@ -45,16 +47,18 @@ Claude-specific adapter details:
 
 The tool-host boundaries are identical to the ChatGPT pattern: claude.ai is the agent, the host is only a tool server, the host's browser logins are not inherited, and public research is limited to what the claude.ai conversation surface provides.
 
-## Authenticated reference browsing
+## Optional authenticated reference browsing
 
-The [Claude in Chrome](https://code.claude.com/docs/en/chrome.md) extension connects Claude Code to the clinician's real Chrome (or Chromium-based) browser, satisfying the [CorePendium browser workflow](../../workflows/corependium-browser.md) trust boundary directly:
+When a user's field requires a licensed or institutional source, the [Claude in Chrome](https://code.claude.com/docs/en/chrome.md) extension can connect Claude Code to the clinician's real Chrome (or Chromium-based) browser and satisfy the shared authenticated-browser trust boundary:
 
-- It reuses existing logged-in sessions; the clinician authenticates CorePendium normally in the browser.
+- It reuses existing logged-in sessions; the clinician authenticates the selected source normally in the browser.
 - It navigates, reads rendered pages (including JavaScript applications), and reports what is visible.
 - It will not enter credentials and pauses for the human at login pages and CAPTCHAs — the required handoff behavior, enforced by the platform.
 - Site-level permissions control which sites Claude may act on; grant only the reference sites the workflow needs.
 
 Availability is plan- and platform-dependent (paid plans, desktop Chrome, no WSL or mobile). For public research, Claude Code's built-in web search and fetch tools work without a browser, but a generic fetch of a licensed JavaScript application may return only a shell — that indicates the browser path is needed, not that access failed.
+
+CorePendium is one emergency-medicine example of this optional pattern. Claude and PearlBook do not require it.
 
 ## Data and privacy notes
 
