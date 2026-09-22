@@ -4,7 +4,9 @@
 
 Create the vault in a normal user-owned directory. Give the agent access only to the vault and any dedicated workspace it needs. A symlink can provide a stable short path while the real vault remains in a synced or backed-up location.
 
-Codex users can run the guided `setup_pearlbook.py` script from the installed skill. It can configure an existing vault or, with confirmation, create a generic starter vault named `PearlBook`. The vault folder should normally be opened as the Codex project as well.
+After installing the PearlBook skill for your agent, you can run the guided `setup_pearlbook.py` script from the installed skill. It can configure an existing vault or, with confirmation, create a generic starter vault named `PearlBook`. The vault folder should normally be opened as the agent's project or working folder as well.
+
+Keep one `AGENTS.md` at the vault root as the shared rules for every agent (Codex, Claude Code, OpenClaw). The starter vault includes one; see the platform pages for how each agent loads it.
 
 Do not place credentials, browser profiles, or raw patient data in the vault.
 
@@ -99,11 +101,13 @@ Emergency-medicine users may add a CorePendium callout or EM-specific headings. 
 - Use `[[wikilinks]]` for internal concepts.
 - Validate renamed notes for broken links.
 
-For chat surfaces that do not activate `obsidian://` links, use an HTTPS bridge if the clinician trusts it. The LangostaMD convention is:
+PearlBook's default note link is a native Obsidian URI plus the plain vault-relative path:
 
 ```text
-https://obsid.net/?vault=<vault-name>&file=<percent-encoded-vault-relative-path-including-.md>
+obsidian://open?vault=<vault-name>&file=<percent-encoded-vault-relative-path>
 ```
+
+Some chat surfaces show `obsidian://` links as plain text. If you want a clickable link there, you can opt into an HTTPS bridge (`link_style: https_bridge` with a `link_base`). A bridge receives the vault name and note path with every click, so never use it for paths that could identify a patient. `https://obsid.net/` is one such bridge, run by a third party (Joost de Valk), not by Obsidian; the original LangostaMD setup used it. A self-hosted static redirector keeps the metadata private.
 
 Treat the bridge as optional adapter behavior, not a core requirement.
 

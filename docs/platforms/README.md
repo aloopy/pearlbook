@@ -10,7 +10,7 @@ PearlBook has one workflow contract and three primary agent adapters. Choose the
 
 Every adapter must:
 
-- operate only on an explicitly authorized vault;
+- operate only on an explicitly authorized vault, following the shared rules in the vault-root `AGENTS.md`;
 - search before creating a note;
 - distinguish answering from editing;
 - make writes reviewable and preserve unrelated content;
@@ -19,7 +19,7 @@ Every adapter must:
 - stop for authentication, uncertainty, or unsafe external action; and
 - say when the vault or a requested source was not consulted.
 
-Authenticated reference browsing is optional. It belongs beside a local agent with a user-authenticated browser or behind a separately designed, narrow source tool. A tool-only MCP host does not inherit browser sessions.
+Authenticated reference browsing is optional. It belongs beside a local agent with a dedicated, user-authenticated browser profile (signed into only the needed sources) or behind a separately designed, narrow source tool. A tool-only MCP host does not inherit browser sessions.
 
 ## Adapter boundaries
 
@@ -28,7 +28,7 @@ Authenticated reference browsing is optional. It belongs beside a local agent wi
 - **Agent host:** an always-on personal computer or private VM
 - **Phone surface:** a messaging adapter chosen and secured by the user
 - **Vault access:** direct local files
-- **Browser access:** a dedicated local profile authenticated interactively by the user
+- **Browser access:** a dedicated local profile, signed into only the needed reference sites, authenticated interactively by the user
 - **Tradeoff:** most control and extensibility; most setup, patching, and monitoring
 
 Read [OpenClaw setup](openclaw.md).

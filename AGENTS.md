@@ -25,13 +25,15 @@ Help maintain a release-agnostic, clinician-owned blueprint for a medical knowle
 - Prefer concise Markdown that renders well in GitHub and Obsidian.
 - When documenting clinical workflows, require authoritative source review and clinician oversight.
 - Do not imply that an agent replaces medical judgment.
-- Never automate credential entry, MFA bypass, CAPTCHA bypass, or subscription circumvention.
-- Keep browser extraction narrow and task-specific.
+- Never let an agent handle or store credentials, and never automate MFA bypass, CAPTCHA bypass, or subscription circumvention. Human-approved password-manager fills (the secret goes from the password manager to the page, never to the agent) are allowed.
+- Keep licensed-source access narrow: the user's own account, one page at a time for the user's question, summaries and links rather than copied text; no crawling, bulk download, or mirroring. Recommend a dedicated browser profile signed into only the needed sources.
 - Treat historical internal APIs as unstable observations, not supported integrations.
 - Do not put a personal vault, human account password, MFA secret, cookie archive, or licensed content in a repository secret or cloud-task environment.
 - Do not treat an ephemeral coding task as the durable vault host.
-- `docs/platforms/claude.md` was verified against official Claude documentation on 2026-08-24; re-verify platform claims against current official documentation before materially changing them.
-- `docs/platforms/codex-chatgpt.md` was verified against official OpenAI documentation on 2026-08-26; re-verify platform claims before materially changing them.
+- `docs/platforms/claude.md` was verified against official Claude documentation on 2026-09-22; re-verify platform claims against current official documentation before materially changing them.
+- `docs/platforms/codex-chatgpt.md` was verified against official OpenAI documentation on 2026-09-22; re-verify platform claims before materially changing them.
+- `docs/platforms/openclaw.md` adapter-setup details were verified against docs.openclaw.ai on 2026-09-22.
+- This file governs work on the public PearlBook repository. A user's private vault gets its own root `AGENTS.md` (the setup script creates a starter version); do not copy repository-maintenance rules into it.
 
 ## Change workflow
 
