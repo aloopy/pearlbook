@@ -4,36 +4,51 @@ Codex and ChatGPT can share the same PearlBook workflow while using different ac
 
 Use this adapter for one of three distinct paths: local Codex beside the vault, Codex Remote steering that computer from a phone, or ChatGPT calling narrow vault tools on a persistent private host. Do not assume that ChatGPT can read a local vault merely because Codex can.
 
-This adapter was verified against official OpenAI documentation on 2026-08-26. Platform availability depends on rollout and workspace settings; re-verify the linked documentation before relying on account-specific features.
+This adapter was verified against official OpenAI documentation on 2026-09-22 (first verified 2026-08-26). Platform availability depends on rollout and workspace settings; re-verify the linked documentation before relying on account-specific features.
 
 ## Option 1: local Codex
 
 Run Codex desktop or CLI on the computer that holds the Obsidian vault. Grant access only to the vault and a dedicated workspace. This provides the simplest file-level search, reviewable edits, and source linking.
 
-An authenticated browser is optional. If the user needs a licensed or institutional source, they log into an approved local browser profile interactively and grant only the access needed for that source. CorePendium is one emergency-medicine example, not a required integration.
+An authenticated browser is optional. If the user needs a licensed or institutional source, use a **dedicated browser profile** that is signed into only that source — not the everyday browser that holds EHR, email, or banking sessions — and let the user log in interactively. CorePendium is one emergency-medicine example, not a required integration.
 
 ### First-run setup
 
 The simplest mental model is that the private Obsidian vault folder and the Codex project are the same folder. The public PearlBook repository and installed skill remain separate.
 
-Run the guided setup from the installed skill:
+**1. Install the skill.** Codex loads personal skills from `~/.agents/skills` and repository skills from `.agents/skills` in the project and its parent folders up to the repository root ([Codex skills](https://developers.openai.com/codex/skills)). Either:
 
 ```bash
-python3 ~/.codex/skills/pearlbook/scripts/setup_pearlbook.py
+# Personal install from a local checkout (symlink keeps it updated with git pull)
+mkdir -p ~/.agents/skills
+ln -s "/path/to/pearlbook-repo/skills/codex/pearlbook" ~/.agents/skills/pearlbook
+# or copy instead of linking:
+# cp -R "/path/to/pearlbook-repo/skills/codex/pearlbook" ~/.agents/skills/pearlbook
 ```
 
-The setup offers two paths:
+or, in Codex, ask `$skill-installer` to install the skill folder from `https://github.com/aloopy/pearlbook/tree/main/skills/codex/pearlbook`. Codex detects new skills automatically; restart Codex if it does not appear.
+
+**2. Run the guided setup** from the installed skill. A person in a terminal can run it with no flags for interactive prompts; an agent should pass an explicit path:
+
+```bash
+# Existing vault
+python3 ~/.agents/skills/pearlbook/scripts/setup_pearlbook.py --existing "/absolute/path/to/vault"
+# New starter vault after the user confirms the location
+python3 ~/.agents/skills/pearlbook/scripts/setup_pearlbook.py --create "$HOME/Documents/PearlBook" --yes
+```
+
+Add `--dry-run` to preview. The setup offers two paths:
 
 1. select an existing Obsidian vault without changing its structure; or
-2. create a new `Documents/PearlBook` vault with `Inbox`, `Topics`, `Pearls`, `Cases`, `Sources`, `Templates`, and `attachments`.
+2. create a new `Documents/PearlBook` vault with `Inbox`, `Topics`, `Pearls`, `Cases`, `Sources`, `Templates`, `attachments`, and a root `AGENTS.md`.
 
-The script asks before creating a new folder, refuses broad root/home locations, avoids overwriting a non-empty folder, and stores the authorized absolute path only in the ignored local skill configuration. After setup, open that same folder as a vault in Obsidian and as the project in Codex.
+The script refuses system, root, and broad home locations, avoids overwriting a non-empty folder, and writes the authorized absolute path to `references/local-config.md` inside the installed skill. That file is ignored by this repository and must remain local; you do not need to copy `local-config.example.md` yourself unless you skip the script. After setup, open that same folder as a vault in Obsidian and as the project in Codex.
 
-Install or reference the [`pearlbook` skill](../../skills/codex/pearlbook/SKILL.md) so the agent applies vault-first retrieval, clinical safety, and editing boundaries consistently.
+**3. Keep one `AGENTS.md` at the vault root.** Codex reads it automatically ([AGENTS.md guide](https://developers.openai.com/codex/guides/agents-md)); the same file serves Claude Code and OpenClaw. For an existing vault, add it with `--scaffold-existing` or copy the rules from the starter vault.
 
-After installation, copy `references/local-config.example.md` to `references/local-config.md` inside the installed skill and set the absolute authorized vault path. The real `local-config.md` is ignored by this repository and must remain local. Start a new Codex task after installing or updating the skill so it appears in the available-skills catalog.
+**4. Start a new Codex task** so the [`pearlbook` skill](../../skills/codex/pearlbook/SKILL.md) is available, and verify that it finds a known note and returns its path and link.
 
-Chat renderers may suppress direct `obsidian://` links. Set `link_style: obsid_net` to present a normal clickable HTTPS link that redirects into the native Obsidian app on desktop or mobile. The URL includes the vault name and vault-relative note path, but not the note contents. Users who do not want that metadata in an external URL can self-host the static redirector or use plain relative paths instead.
+Note links default to native `obsidian://` URIs plus the vault-relative path. Some chat renderers show `obsidian://` links as plain text. If you want clickable HTTPS links instead, opt in with `--link-style https_bridge --link-base <https-url>`. The redirector receives the vault name and note path with every click; `https://obsid.net/` is a third-party service run by Joost de Valk, and a self-hosted redirector keeps that metadata private.
 
 ## Option 2: Codex Remote
 
@@ -68,6 +83,22 @@ performed from ChatGPT on a mobile device.
 This path is currently a developer-mode, single-user setup. It is not a public
 hosted PearlBook service, and availability depends on OpenAI Platform tunnel and
 ChatGPT workspace permissions.
+
+The MCP server cannot tell whether a person approved a write. `pearlbook_apply_write`
+is annotated as destructive so ChatGPT asks for confirmation before each call; keep
+that confirmation and review the preview diff every time.
+
+## Data and privacy notes
+
+- Individual ChatGPT plans use conversations for model training by default. Turn
+  off **Settings > Data controls > Improve the model for everyone** before routing
+  clinical learning conversations through ChatGPT or Codex. ChatGPT Business,
+  Enterprise, Edu, and the API are not used for training by default
+  ([how your data is used](https://help.openai.com/en/articles/5722486-how-your-data-is-used-to-improve-model-performance)).
+- Even with training off, thumbs-up/down feedback can make that whole conversation
+  available for training. Do not rate conversations that contain sensitive material.
+- Codex has a separate **Include environments** training setting in Codex settings.
+- Avoid pasting patient details or secrets into any conversation, local or remote.
 
 ## Codex cloud tasks
 

@@ -33,7 +33,7 @@ OpenClaw on always-on computer
    `-- optional public research tools
 ```
 
-This is the most open and controllable option. When needed, it can combine the local vault with sources that are impractical or impermissible to copy into the vault, because the agent can navigate a browser session that the user authenticated interactively. It is also the most setup-intensive home configuration. See [OpenClaw setup](platforms/openclaw.md).
+This is the most open and controllable option. When needed, it can combine the local vault with a licensed source the user subscribes to: instead of copying that source into the vault, the agent opens the specific page the user's question needs in a dedicated browser profile the user signed into, and returns a summary with a link back. It is also the most setup-intensive home configuration. See [OpenClaw setup](platforms/openclaw.md).
 
 ### Pattern 2: extra computer as a private tool host
 
@@ -95,11 +95,12 @@ Run Obsidian Headless on a persistent private host with an active Obsidian Sync 
 ```bash
 npm install -g obsidian-headless
 ob login
-ob sync-setup
-ob sync --continuous
+ob sync-list-remote
+ob sync-setup --vault "REMOTE VAULT NAME" --path ~/PearlBookHeadless --device-name pearlbook-headless
+ob sync --path ~/PearlBookHeadless --continuous
 ```
 
-Obsidian currently documents Node.js 22 or later. Back up the vault before initial setup, and do not run desktop Sync and Headless Sync against the same local vault on one device.
+Obsidian currently documents Node.js 22 or later. The [headless runbook](../skills/codex/pearlbook/references/headless-chatgpt.md) starts in `pull-only` mode and checks `ob sync-status` before running continuously. Back up the vault before initial setup, and do not run desktop Sync and Headless Sync against the same local vault on one device.
 
 Expose only narrow PearlBook operations to the conversation surface, for example:
 
@@ -131,17 +132,19 @@ A private MCP server is one portable way to implement the narrow tool. When supp
 
 Keep three different browser paths explicit:
 
-1. **Browser beside a local agent:** Codex, Claude, or OpenClaw may use a local browser profile that the user authenticated, subject to platform permissions and the source's terms.
+1. **Browser beside a local agent:** Codex, Claude, or OpenClaw may use a local browser profile that the user authenticated, subject to platform permissions and the source's terms. Use a dedicated profile signed into only the reference sites PearlBook needs, never the everyday browser that holds EHR, email, or banking sessions.
 2. **Browser supplied by the conversation surface:** ChatGPT or Claude may provide public web search, browser use, or connectors. Those capabilities run outside the private host and do not inherit the host's logged-in browser session.
 3. **Source tools exposed through MCP:** a private host may expose narrowly designed tools for approved sources. This is additional implementation work and should not become an unrestricted browser proxy.
 
-For licensed references, do not automate passwords, MFA, CAPTCHA, or session export. Prefer interactive user login, narrow retrieval, and source linking without copying a paywalled corpus into the vault.
+For licensed references, the agent never handles passwords and never automates MFA, CAPTCHA, or session export. The user logs in (a password-manager fill the user approves on their own device is fine). The agent then opens one page at a time for the user's question, stores its own summary and a link, and never crawls, bulk-downloads, or mirrors the source. See the [CorePendium example](../workflows/corependium-browser.md).
 
 The Codex/ChatGPT skill includes a bounded stdio MCP implementation and a guided
 [headless setup runbook](../skills/codex/pearlbook/references/headless-chatgpt.md).
 It exposes bounded Markdown search, exact-note reads, and hash-checked
 preview-and-confirm writes from one explicit vault root. It intentionally provides
-no delete, rename, shell, or arbitrary filesystem operations. Treat this as a
+no delete, rename, shell, hidden-folder, or arbitrary filesystem operations. The
+server cannot see the user, so write approval is enforced by the chat client's
+confirmation prompt for the destructive `pearlbook_apply_write` tool. Treat this as a
 private developer-mode deployment; public plugin distribution has different
 hosting and authentication requirements.
 

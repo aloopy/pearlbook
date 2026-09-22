@@ -2,13 +2,15 @@
 
 Use this workflow when the user asks to install, configure, or connect PearlBook.
 Resume from the first incomplete stage instead of restarting a working setup.
+Commands below are relative to the installed skill folder (for example
+`~/.agents/skills/pearlbook` for Codex or `.claude/skills/pearlbook` for Claude Code).
 
 ## 1. Choose the access outcome
 
 Ask one short question if the outcome is not already clear:
 
-1. **Local:** Obsidian and Codex use the vault on this computer. Recommend this to
-   beginners.
+1. **Local:** Obsidian and a local agent (Codex, Claude Code, or OpenClaw) use the
+   vault on this computer. Recommend this to beginners.
 2. **Remote to this computer:** the vault stays here and the user reaches the
    computer from a phone. The computer must remain awake and online.
 3. **Always-available ChatGPT:** a persistent private host holds a Headless Sync
@@ -27,15 +29,33 @@ Headless client, MCP server, and tunnel must remain running on a real host.
 Offer an existing Obsidian vault or a new `Documents/PearlBook` vault. Ask before
 creating or modifying folders. Do not search a home directory for a vault.
 
-For local setup, prefer:
+Agents run the script non-interactively, so always pass an explicit path. Preview
+first with `--dry-run`:
 
 ```bash
-python3 scripts/setup_pearlbook.py --access local
+# Existing vault (structure is left unchanged)
+python3 scripts/setup_pearlbook.py --existing "/absolute/path/to/vault" --dry-run
+python3 scripts/setup_pearlbook.py --existing "/absolute/path/to/vault"
+
+# New starter vault, only after the user confirms the location
+python3 scripts/setup_pearlbook.py --create "$HOME/Documents/PearlBook" --dry-run
+python3 scripts/setup_pearlbook.py --create "$HOME/Documents/PearlBook" --yes
 ```
 
-The script location is relative to this skill. If the user chooses an existing
-vault, do not scaffold it unless they explicitly request the starter structure.
-Open the resulting folder as both the Obsidian vault and Codex project.
+A person in a terminal can run `python3 scripts/setup_pearlbook.py` with no flags
+for the interactive prompts.
+
+If the user chooses an existing vault, do not scaffold it unless they explicitly
+request the starter structure (`--scaffold-existing`). Open the resulting folder as
+both the Obsidian vault and the agent's project folder.
+
+The starter vault includes a root `AGENTS.md` with the shared PearlBook rules. Codex
+and OpenClaw read it directly, and Claude Code v2.1.277+ reads it when no
+`CLAUDE.md` exists. For an existing vault, offer to add the same file.
+
+Links default to native `obsidian://` URIs. Only if the user wants clickable links in
+a chat app that ignores them, offer `--link-style https_bridge --link-base <https-url>`
+and explain that the redirector sees the vault name and note path.
 
 For a new always-available setup, first create the vault on the user's primary
 device and let the user enable Obsidian Sync interactively. The public PearlBook
@@ -47,7 +67,7 @@ Before adding remote infrastructure:
 
 1. read the local configuration;
 2. search for a known note or create the welcome note with permission;
-3. return its vault-relative path and clickable Obsidian link; and
+3. return its vault-relative path and Obsidian link; and
 4. confirm that the native Obsidian app opens it.
 
 If this fails, fix the local path or link behavior before continuing.

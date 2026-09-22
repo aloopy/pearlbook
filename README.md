@@ -13,13 +13,13 @@ PearlBook documents the architecture and operating habits behind **LangostaMD** 
 
 1. **Create or choose the private vault.** Use an existing Obsidian vault or create a new `PearlBook` vault with [Obsidian setup](docs/obsidian-setup.md). Keep it separate from this public repository.
 2. **Choose where PearlBook will run.** Use your primary computer, an extra always-on computer, or a private VM. [Deployment options](docs/deployment-options.md) explains what remains available when a computer is offline.
-3. **Configure one primary agent.** Follow [OpenClaw](docs/platforms/openclaw.md), [Codex/ChatGPT](docs/platforms/codex-chatgpt.md), or [Claude](docs/platforms/claude.md). Do not install all three by default.
+3. **Configure one primary agent.** Follow [OpenClaw](docs/platforms/openclaw.md), [Codex/ChatGPT](docs/platforms/codex-chatgpt.md), or [Claude](docs/platforms/claude.md). Do not install all three by default. Keep one `AGENTS.md` at the vault root as the shared rules file; Codex, Claude Code, and OpenClaw can all read it.
 4. **Verify the core workflow.** Confirm that the agent can search a known note, read it, return an exact clickable link, and preview an authorized edit before applying it.
 5. **Review the boundaries.** Before enabling remote access or adding private sources, read [Architecture](docs/architecture.md), the [clinical topic workflow](workflows/clinical-topic.md), and [Security and clinical safety](SECURITY.md).
 6. **Add phone or always-available access only after the core works.** Remote control, messaging, Headless Sync, MCP, and VMs are deployment layers; none replaces the vault or supplies an agent by itself.
 7. **Add optional content last.** Migrate an [existing library](workflows/migrate-existing-library.md) if needed, then add institutional or licensed sources useful to your field. [CorePendium](workflows/corependium-browser.md) and the [Glass Health migration](workflows/glass-migration.md) are examples, not requirements.
 
-If you use Codex, you can tell the agent **“Set up PearlBook.”** The guided skill resumes from the first incomplete stage and pauses for every folder choice, login, credential, and workspace authorization that requires you.
+After installing the [`pearlbook` skill](skills/codex/pearlbook/SKILL.md) for your agent (see its platform page), you can tell the agent **“Set up PearlBook.”** The guided skill resumes from the first incomplete stage and pauses for every folder choice, login, credential, and workspace authorization that requires you.
 
 ### For agents
 
@@ -77,7 +77,7 @@ A VM improves availability but adds cost, maintenance, and responsibility for a 
 - **Clinician-owned:** Markdown, media, and metadata remain locally inspectable.
 - **Vault first:** search existing notes before drafting or editing.
 - **Source before synthesis:** read the primary relevant reference before writing.
-- **Human-authenticated when needed:** users log into selected subscription sites; local agents may reuse the approved session without handling credentials.
+- **Human-authenticated when needed:** users log into selected subscription sites in a dedicated browser profile; local agents may reuse that session, one page at a time for the user's question, without handling credentials.
 - **Reviewable:** every meaningful change has a source trail and a direct note link.
 - **Portable:** workflows specify capabilities and invariants, not brittle release-specific commands.
 - **Minimal:** notes are concise, useful on shift, and expanded only when the task warrants it.
@@ -85,8 +85,10 @@ A VM improves availability but adds cost, maintenance, and responsibility for a 
 ## Non-goals
 
 PearlBook does not host personal vaults, provide a managed always-on server,
-redistribute licensed content, automate credential entry, provide a prebuilt
-medical corpus, or replace clinician judgment. It is infrastructure for personal
+redistribute or mirror licensed content, let an agent handle or store credentials,
+provide a prebuilt medical corpus, or replace clinician judgment. (A password-manager
+fill that the user approves on their own device is allowed, because the secret never
+reaches the agent.) It is infrastructure for personal
 learning and knowledge management.
 
 ## Project status

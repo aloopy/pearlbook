@@ -14,12 +14,13 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 
 ## Authenticated browser rules
 
-1. The user enters credentials and completes MFA.
-2. The agent may reuse that local session for authorized research.
-3. The agent must not export or serialize authentication state into the repository.
-4. A login blocker causes a human handoff, not credential-guessing or bypass.
-5. Collect only the minimum page information needed for the current task.
-6. Respect subscriptions, licenses, terms, and robots/access controls.
+1. Use a dedicated browser profile signed into only the reference sites PearlBook needs, never the everyday browser that holds EHR, email, or banking sessions.
+2. The user enters credentials and completes MFA. A password-manager fill that the user approves on their own device (for example 1Password for Claude with Touch ID) is acceptable because the secret never reaches the agent.
+3. The agent may reuse that session to open the specific pages the user's question needs.
+4. The agent must not export or serialize authentication state into the repository.
+5. A login blocker causes a human handoff, not credential-guessing or bypass.
+6. Collect only the minimum page information needed for the current task. No crawling, bulk download, or mirroring.
+7. Respect subscriptions, licenses, terms, and robots/access controls.
 
 ## Credential boundaries
 
@@ -70,4 +71,6 @@ If sensitive data is committed, rotate affected credentials immediately and remo
 
 ## Reporting
 
-Until a private reporting channel is listed, open a GitHub issue only for non-sensitive concerns. Do not place secrets, PHI, or exploit details in a public issue.
+Report vulnerabilities privately through GitHub's private vulnerability reporting: open the repository's **Security** tab and choose **Report a vulnerability**. (The repository owner must first enable it in the repository's **Settings** security section (**Private vulnerability reporting > Enable**); if the button is missing, it has not been enabled yet.)
+
+Use public GitHub issues only for non-sensitive concerns. Do not place secrets, PHI, or exploit details in a public issue.
