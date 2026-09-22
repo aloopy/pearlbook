@@ -17,7 +17,7 @@ Use the user's configured source policy. Depending on the question, that may inc
 
 - an institutional pathway or local protocol;
 - a society guideline, regulatory source, or primary study;
-- a licensed specialty reference through a user-authenticated browser; or
+- a licensed specialty reference the user subscribes to, opened one page at a time in the user's own logged-in session; or
 - no external source when the task is only to retrieve or reorganize existing vault content.
 
 Read material sources before drafting rather than adding citations to an answer written from model memory. CorePendium is one optional licensed-reference example for emergency-medicine users; it is not required by PearlBook.
@@ -29,7 +29,7 @@ Capture:
 - links to useful associated media or institutional material
 - uncertainty or gaps that require another source
 
-Do not copy or publish licensed source text.
+Do not copy or publish licensed source text. Answer in your own words, link back to the page, and follow the source's terms; never crawl, bulk-download, or mirror it.
 
 ### 3. Supplement appropriately
 
