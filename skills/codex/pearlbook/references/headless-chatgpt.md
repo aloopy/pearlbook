@@ -66,7 +66,8 @@ always-available mode cannot work.
 If the host already uses Obsidian desktop Sync, stop and have the user choose a
 different host or disable desktop Sync on that device before proceeding.
 
-Run the bundled readiness check when available:
+Run the bundled readiness check when available. Script paths in this runbook are
+relative to the installed skill folder (the folder containing `SKILL.md`):
 
 ```bash
 python3 scripts/check_headless_readiness.py --vault ~/PearlBookHeadless
@@ -98,16 +99,21 @@ Official references:
 
 ## Stage 2: install and test the MCP server
 
-Create an isolated Python environment outside the vault. From the installed skill
-or a trusted PearlBook checkout:
+Create an isolated Python environment outside the vault. As elsewhere in this
+runbook, commands run from the installed skill folder (the folder containing
+`SKILL.md`). From a repository checkout, first `cd skills/codex/pearlbook`.
 
 ```bash
-python3 -m venv .pearlbook-runtime
-.pearlbook-runtime/bin/pip install -r skills/codex/pearlbook/scripts/requirements-mcp.txt
-.pearlbook-runtime/bin/python skills/codex/pearlbook/scripts/pearlbook_mcp.py \
+python3 -m venv ~/.pearlbook-runtime
+~/.pearlbook-runtime/bin/pip install -r scripts/requirements-mcp.txt
+~/.pearlbook-runtime/bin/python scripts/pearlbook_mcp.py \
   --vault ~/PearlBookHeadless \
   --vault-name "PearlBook"
 ```
+
+Links default to native `obsidian://` URIs. ChatGPT may show them as plain text; to
+get clickable links, add `--link-style https_bridge --link-base <https-url>` only
+after the user accepts that the redirector sees the vault name and note path.
 
 The last command runs a stdio MCP server and waits for requests. Do not type note
 content into that terminal. Test it with MCP Inspector before adding the tunnel:
@@ -141,8 +147,13 @@ Use a disposable Markdown note to verify the two-step write tools:
    Sync, then remove the disposable note manually if desired.
 
 The service intentionally provides no delete, rename, arbitrary filesystem, or
-shell tool. A changed source hash invalidates the proposal so concurrent edits are
-not silently overwritten.
+shell tool, and it refuses hidden folders such as `.obsidian` and `.trash`. A
+changed source hash invalidates the proposal so concurrent edits are not silently
+overwritten.
+
+The server cannot verify that a person approved a change. `pearlbook_apply_write`
+is annotated as destructive so ChatGPT asks for confirmation; keep that
+confirmation enabled and do not choose "always allow" for the write tool.
 
 ## Stage 3: connect the private tunnel
 
@@ -159,7 +170,8 @@ with an unauthenticated public forwarding URL.
 4. Have the user place the runtime API key in the host's protected environment or
    secret store without pasting it into chat.
 5. Initialize the tunnel with the `tunnel_id` and the full stdio command for
-   `pearlbook_mcp.py`.
+   `pearlbook_mcp.py`, using absolute paths, for example
+   `--mcp-command "$HOME/.pearlbook-runtime/bin/python <skill-folder>/scripts/pearlbook_mcp.py --vault $HOME/PearlBookHeadless"`.
 6. Run `tunnel-client doctor --profile <profile> --explain`, then keep
    `tunnel-client run --profile <profile>` healthy under an OS user service.
 
