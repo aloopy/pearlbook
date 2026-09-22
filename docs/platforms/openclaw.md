@@ -40,10 +40,11 @@ Do not infer Telegram, CorePendium, a VM, or multi-device Obsidian Sync from thi
 
 ### Shared rules: the vault's `AGENTS.md`
 
-OpenClaw loads `AGENTS.md` from the agent's **workspace** at the start of every session ([agent workspace](https://docs.openclaw.ai/concepts/agent-workspace)). The default workspace is `~/.openclaw/workspace`, not your vault. Choose one:
+OpenClaw loads `AGENTS.md` from the agent's **workspace** at the start of every session ([agent workspace](https://docs.openclaw.ai/concepts/agent-workspace)). The default workspace is `~/.openclaw/workspace`, not your vault.
 
-- point the agent's workspace (`agents.defaults.workspace` or a per-agent `workspace`) at the vault so it reads the same root `AGENTS.md` that Codex and Claude Code use. OpenClaw seeds its own bootstrap files (such as `SOUL.md`) into a new workspace; set `agents.defaults.skipBootstrap: true` if you do not want them in the vault; or
-- keep the default workspace and put the PearlBook rules, including the exact vault path, in that workspace's `AGENTS.md`.
+**Recommended:** keep the default workspace and copy the PearlBook rules from the vault-root `AGENTS.md` into the workspace's own `AGENTS.md`, adding the exact vault path. OpenClaw's bootstrap files (such as `SOUL.md`) stay out of the vault. The tradeoff is two copies: when you change the vault's `AGENTS.md`, update the workspace copy too, or OpenClaw will follow stale rules while Codex and Claude Code follow the new ones.
+
+**Alternative:** point the agent's workspace (`agents.defaults.workspace` or a per-agent `workspace`) at the vault so it reads the same root `AGENTS.md` that Codex and Claude Code use. OpenClaw seeds its own bootstrap files into a new workspace; set `agents.defaults.skipBootstrap: true` if you do not want them in the vault.
 
 The workspace is the default working directory, **not a sandbox**: absolute paths can still reach the rest of the host unless OpenClaw sandboxing is enabled ([`agents.defaults.sandbox`](https://docs.openclaw.ai/gateway/sandboxing)).
 
