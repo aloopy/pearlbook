@@ -19,7 +19,7 @@ Every adapter must:
 - stop for authentication, uncertainty, or unsafe external action; and
 - say when the vault or a requested source was not consulted.
 
-Authenticated reference browsing is optional. It belongs beside a local agent with a dedicated, user-authenticated browser profile (signed into only the needed sources) or behind a separately designed, narrow source tool. A tool-only MCP host does not inherit browser sessions.
+Authenticated reference browsing is optional. It can use a local or cloud agent's dedicated, user-authenticated browser profile (signed into only the needed sources) or a separately designed, narrow source tool. A tool-only MCP host does not inherit browser sessions.
 
 ## Adapter boundaries
 
@@ -37,9 +37,10 @@ Read [OpenClaw setup](openclaw.md).
 
 - **Local agent:** Codex on the computer that holds the vault
 - **Phone surface:** Codex Remote steers that connected computer
-- **Always-available alternative:** ChatGPT calls a narrow PearlBook MCP tool on a persistent private host
+- **Cloud computer:** a dot can use on-demand Headless Sync and a separately authenticated browser; see the adapter for private login and recovery
+- **Private-host alternative:** ChatGPT calls a narrow PearlBook MCP tool on a persistent private host
 - **Browser boundary:** local Codex may use an approved local browser; ChatGPT through a tool-only host does not inherit the host's browser login
-- **Tradeoff:** simplest guided PearlBook setup and an OpenAI-native remote path; always-available access requires a maintained private host
+- **Tradeoff:** simplest guided PearlBook setup and an OpenAI-native remote path; a persistent private service requires a maintained host, while dot cloud work depends on available platform capabilities and verified sync
 
 Read [Codex and ChatGPT setup](codex-chatgpt.md).
 

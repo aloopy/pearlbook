@@ -25,7 +25,7 @@ The **vault is the durable clinical memory**. The agent's chat history, model co
 1. **Direct local files:** the agent runs on a machine holding an authorized vault replica and receives access only to the vault and a dedicated workspace.
 2. **Narrow private tool:** a persistent private host holds a synchronized vault replica and exposes only PearlBook search, read, and reviewable-edit operations to the conversation surface.
 
-Do not use an ephemeral cloud coding task as the durable vault host. See [Deployment options](deployment-options.md).
+A cloud computer can implement direct-file access with an authorized private replica, sync checks, and an independent backup; see the [ChatGPT adapter](platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer). Browser authentication remains separate from vault synchronization. Do not use an ephemeral cloud coding task as the durable vault host. See [Deployment options](deployment-options.md).
 
 In both patterns, the user's standing rules live in one `AGENTS.md` at the vault root (or, for a tool-only host, in the skill and MCP server instructions). Codex, Claude Code, and OpenClaw can all load it; see the platform pages for details.
 
@@ -41,7 +41,7 @@ Every implementation needs the vault capabilities below. Source integrations are
 | Core | Link generation | Return a clickable link or exact path to the vault note |
 | Core | Auditability | Record sources, note paths, and material changes |
 | Core | Human handoff | Stop for uncertainty, unsafe external action, or missing authorization |
-| Optional source adapter | Authenticated browser | Reuse a dedicated, clinician-authenticated local profile (signed into only the needed sources) without handling credentials |
+| Optional source adapter | Authenticated browser | Reuse a dedicated, clinician-authenticated local or cloud profile (signed into only the needed sources) without handling credentials |
 | Optional source adapter | Page inspection and navigation | Read rendered pages and use narrow actions without scripting credentials |
 | Optional public research | Current evidence search | Find primary or authoritative sources appropriate to the question |
 
