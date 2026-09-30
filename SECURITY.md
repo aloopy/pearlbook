@@ -15,7 +15,7 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 ## Authenticated browser rules
 
 1. Use a dedicated browser profile signed into only the reference sites PearlBook needs, never the everyday browser that holds EHR, email, or banking sessions.
-2. The user enters credentials and completes MFA. A password-manager fill that the user approves on their own device (for example 1Password for Claude with Touch ID) is acceptable because the secret never reaches the agent.
+2. The user enters credentials and completes MFA. A user-approved password-manager fill or platform private sign-in form is acceptable only when credentials go directly to the intended service without reaching the agent or chat. The user handles verification and medical/legal terms acceptance.
 3. The agent may reuse that session to open the specific pages the user's question needs.
 4. The agent must not export or serialize authentication state into the repository.
 5. A login blocker causes a human handoff, not credential-guessing or bypass.
@@ -28,10 +28,13 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 |---|---|---|
 | Local computer | User-authenticated browser profile; local OS protections | Password text, MFA seed, recovery code, exported cookies |
 | Private headless host | Scoped machine tokens required by the sync or narrow tool | Human website passwords or unrestricted home-directory access |
-| Cloud coding environment | Minimum scoped setup credential for public-repository development | Personal vault, licensed-site credentials, browser state, human passwords |
+| Dot cloud computer | Authorized private vault replica; user-authenticated source session; optional user-approved managed login | Passwords exposed to the agent/chat, copied authentication state, PHI |
+| Cloud coding environment | Minimum scoped machine credential for public-repository development | Personal vault, licensed-site credentials, browser state, human passwords |
 | Private PearlBook tool | Tool-specific authentication and least-privilege vault path | General shell, arbitrary filesystem root, secret-store browsing |
 
 Human credentials belong in the user's password manager and should be entered by the user into the intended service. A platform secret feature does not make a human password appropriate for agent use.
+
+A managed browser login is separate from an active session, which can expire. Saved-login reuse may require user confirmation. Keep the dot cloud computer, the native terminal's Sync login, and Codex Cloud environment secrets separate; never repair access by dumping credentials or moving tokens between them. See the [ChatGPT setup](docs/platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer).
 
 ## Private-host hardening
 

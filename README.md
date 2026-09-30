@@ -46,7 +46,7 @@ The three adapters implement the same PearlBook contract but are not interchange
 | Adapter | Where the agent runs | Phone access | Authenticated browser on the host | Best fit |
 |---|---|---|---|---|
 | [OpenClaw](docs/platforms/openclaw.md) | An always-on personal computer or private VM | A configured messaging app | Yes, after the user logs into a dedicated browser profile | Maximum control; most setup and maintenance |
-| [Codex and ChatGPT](docs/platforms/codex-chatgpt.md) | Local Codex, or ChatGPT using a narrow tool on a persistent host | Codex Remote for a connected computer; ChatGPT mobile for a private tool host | Yes with local Codex; no automatic access through a tool-only host | Direct local work, reviewable edits, and an OpenAI-native remote path |
+| [Codex and ChatGPT](docs/platforms/codex-chatgpt.md) | Local Codex, a dot cloud computer, or ChatGPT using a narrow tool on a persistent host | Codex Remote; ChatGPT mobile for cloud or private-host work | Local or separately authenticated dot browser; no automatic access through a tool-only host | Direct local work, reviewable edits, and an OpenAI-native remote path |
 | [Claude](docs/platforms/claude.md) | Local Claude Code, or claude.ai using a narrow tool on a persistent host | Remote Control for a connected computer; Claude mobile for a private tool host | Yes with local Claude Code and an approved browser integration; no automatic access through a tool-only host | Direct local work and a Claude-native remote path |
 
 Read the [platform adapter index](docs/platforms/README.md) before combining components. A hybrid setup can be useful, but each additional agent, vault replica, browser profile, or write path adds conflict and security risk.
@@ -67,6 +67,7 @@ The connected computer performs the work and must remain awake and online. An au
 
 ### No personal computer stays on
 
+- **Dot cloud computer:** use on-demand Obsidian Headless Sync and a separately authenticated cloud browser. Follow the [step-by-step ChatGPT setup](docs/platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer), including private login, optional saved passwords, and recovery. Keep an independent vault backup; this path does not promise a continuously running sync service.
 - **Private tool-host VM:** run Obsidian Headless plus PearlBook MCP; ChatGPT or Claude remains the agent.
 - **Agent-host VM:** run OpenClaw with the vault and any explicitly configured browser or research tools.
 
@@ -87,8 +88,8 @@ A VM improves availability but adds cost, maintenance, and responsibility for a 
 PearlBook does not host personal vaults, provide a managed always-on server,
 redistribute or mirror licensed content, let an agent handle or store credentials,
 provide a prebuilt medical corpus, or replace clinician judgment. (A password-manager
-fill that the user approves on their own device is allowed, because the secret never
-reaches the agent.) It is infrastructure for personal
+fill or platform private sign-in that the user approves is allowed when the secret
+goes directly to the intended service and never reaches the agent.) It is infrastructure for personal
 learning and knowledge management.
 
 ## Project status

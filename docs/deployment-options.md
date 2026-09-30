@@ -75,8 +75,14 @@ Obsidian Sync replicates vault files between authorized devices. It is not a gen
 
 Headless does not eliminate the machine; it eliminates the desktop UI. Obsidian
 Sync does not run PearlBook code. If all personal computers may be offline, an
-always-on private VM/VPS must run Headless Sync, the PearlBook MCP server, and the
-outbound tunnel. PearlBook does not currently provide a managed hosted service.
+always-on private VM/VPS can run Headless Sync, the PearlBook MCP server, and the
+outbound tunnel for the tool-host pattern. PearlBook does not currently provide a managed hosted service.
+
+### Pattern 5: a dot cloud computer for on-demand work
+
+When available, a dot can keep a private Headless Sync replica on its own cloud computer and use its separately authenticated browser. Follow the [ChatGPT adapter](platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer) for installation, private desktop takeover, source login, and sync-before/edit/sync-after checks. A personal laptop need not remain online once access is configured. This direct-file path needs no MCP tunnel, but adds a decrypted cloud replica and depends on the platform's runtime and access controls. Keep an independent backup; do not assume an always-running process, durable disk guarantee, or unexpired login.
+
+This is distinct from an ephemeral Codex repository task. It also does not make a tool-only host inherit the cloud browser's session.
 
 ## Recommended tiers
 

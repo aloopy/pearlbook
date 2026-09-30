@@ -1,7 +1,10 @@
 # Headless Obsidian and ChatGPT
 
-Use this only for a user who wants ChatGPT to reach PearlBook without depending on
-their primary computer. The first synchronization test is read-only. The finished
+This runbook covers the **private MCP host** path. For a dot using its own cloud
+computer directly, follow the [ChatGPT cloud-computer setup](../../../../docs/platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer); that path uses on-demand sync without this MCP/tunnel deployment.
+
+Use the stages below when the user chooses a private tool host so ChatGPT can reach
+PearlBook without depending on their primary computer. The first synchronization test is read-only. The finished
 workflow supports reviewable writes after the user explicitly enables
 bidirectional Sync.
 
