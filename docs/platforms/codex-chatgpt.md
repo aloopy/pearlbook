@@ -135,7 +135,7 @@ unset OBSIDIAN_AUTH_TOKEN
 exec "$PB_ROOT/runtime/node_modules/.bin/ob" "$@"
 ```
 
-Use this wrapper for every authenticated command, including inside any `pb-sync.sh` helper or service. It deliberately overrides a runtime-provided XDG path on each invocation. Keep its config directory private (0700); the tested client creates token/key files with 0600 permissions. Do not print their contents, place secrets in the wrapper, or back up authentication state into a notebook or public archive. Copying it can expose credentials and duplicate device/sync identity.
+Use this wrapper for every authenticated command, including inside any `pb-sync.sh` helper or service. It deliberately overrides a runtime-provided XDG path on each invocation. Keep its config directory private (0700); the tested client creates token/key files with 0600 permissions. These permissions still allow the owning OS user and root access; they add no encryption and do not make the workspace a platform-guaranteed secret store. Do not print their contents, place secrets in the wrapper, or back up authentication state into a notebook or public archive. Copying it can expose credentials and duplicate device/sync identity.
 
 ### 3. Sign in privately through desktop takeover
 
@@ -222,7 +222,9 @@ A note-and-source-image update completed this cloud-side sequence in testing on 
 | Vault files remain but account, device, or sync database state is missing | Stop sync and edits; follow the fresh-replica recovery below. Reattaching a stale directory with default bidirectional sync can upload old files and resurrect remote deletions. |
 | Cloud files or setup are missing after returning | Check the recorded paths and permissions, then restore the client and use fresh-replica recovery. Do not assume paths, state, or sessions survived. |
 
-**Fresh-replica recovery after lost sync state:** stop active sync processes; preserve the old vault as a dated private backup **outside** the active sync path. Create a new empty vault directory, use the pinned wrapper for private login and `sync-setup`, then set `pull-only` before the first sync. Verify expected notes and attachments, **Fully synced**, and that known remote deletions remain absent. Review any unsynced local changes from the backup individually; never copy the stale tree wholesale into the fresh replica. Enable bidirectional mode only after review and authorization. `mirror-remote` also downloads only but reverts local changes; do not use it to skip preserving the old replica.
+**Fresh-replica recovery after lost sync state:** stop active sync processes; preserve the old vault as a dated private backup **outside** the active sync path. Create a new empty vault directory, use the pinned wrapper for private login and `sync-setup`, then set `pull-only` before the first sync. Require sync exit status 0 and **Fully synced**, expected downloads, no uploads or remote deletions, and that known remote deletions remain absent locally. Review any unsynced local changes from the backup individually; never copy the stale tree wholesale into the fresh replica. `mirror-remote` also downloads only but reverts local changes; do not use it to skip preserving the old replica.
+
+For repeatable recovery, keep a non-secret `recovery.pending` marker in the private config root. Any locally added sync helper must force `pull-only` while that marker exists and stop on missing configuration or a failed mode change; it must not silently recreate a bidirectional association. Retire the marker recoverably only after the download/deletion checks pass and the user authorizes uploads. Then explicitly set `--mode bidirectional` with `sync-config` and recheck the settings. Preserve the sync database and its corresponding downloaded replica together; losing either requires reassessment before syncing. These helper names and marker conventions describe local setup, not scripts installed by this repository.
 
 **Resume and persistence checklist:**
 
@@ -232,6 +234,8 @@ A note-and-source-image update completed this cloud-side sequence in testing on 
 - [ ] First/recovery sync is pull-only; expected files arrived, known deletions stayed deleted, and status is fully synced.
 - [ ] For authorized writes, bidirectional mode and arrival on a second device are checked separately.
 - [ ] Record exactly which survival checks passed: new shell/process, later session, actual host restart, or host replacement. A new shell is **not** a VM restart test. Recheck state and sync before each resumed edit; never promise indefinite authentication or an always-on service.
+
+Preparation checked on 2026-10-02: the repaired cloud helpers passed shell syntax checks and a non-secret marker was visible from the execution shell, a fresh process with intentionally different home/XDG values, and GUI Terminal. Missing vault configuration caused status/sync helpers to stop with exit status 3. New private directories were 0700 and the marker 0600; the stale replica was preserved outside sync and the active directory was empty. Private authentication, a successful recovery sync, and a full VM restart/replacement were still pending. These preparation checks establish consistent path selection, not authenticated persistence or successful recovery.
 
 In the tested Node 24.19.0 terminal, native fetch initially failed because Node had not opted into the configured proxy. When the same problem occurs, adapt the wrapper to use that existing approved route:
 
