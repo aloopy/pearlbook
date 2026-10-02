@@ -90,7 +90,9 @@ that confirmation and review the preview diff every time.
 
 ## Option 4: Headless Obsidian on a dot cloud computer
 
-Use this path when you want on-demand note work while your laptop is offline and your account provides a dot cloud computer with terminal and browser access. The dot reads a private Markdown replica there; Obsidian Sync exchanges files with your other devices. A separate cloud-browser login supplies trusted-source access. This path does not require the private MCP server or tunnel from Option 3.
+Choose this path for PearlBook in ChatGPT without an extra always-on computer or a VM you set up and host yourself. It supports on-demand note work while your laptop is offline, when your account provides a dot cloud computer with terminal and browser access. The dot reads a private Markdown replica there; Obsidian Sync exchanges files with your other devices. A separate cloud-browser login supplies trusted-source access. This path does not require the private MCP server or tunnel from Option 3.
+
+Alongside notebook retrieval, use the ChatGPT tools available in the task for research, image generation, and file creation. The [board-pearl workflow](../../workflows/board-pearl-linked-pdf.md) connects a teaching-board photo to source review, a clearer graphic, a linked PDF, and an authorized notebook update. Confirm actual tool access and review any proposed clinical correction; no skill or notebook connection grants every ChatGPT capability automatically.
 
 The durable workflow is **capture → retrieve → verify → minimal update → link**. Keep an independent vault backup, authorize the replica and each edit, and require clinician review of clinical content. The cloud replica is decrypted and readable by the agent; end-to-end encrypted transport does not make that working copy inaccessible to its host. Keep PHI out of it.
 

@@ -9,17 +9,31 @@ PearlBook documents the architecture and operating habits behind **LangostaMD** 
 
 ## Start here
 
+### Use a ChatGPT dot without an extra computer
+
+**Choose a dot if you want PearlBook in ChatGPT without keeping an extra laptop running or setting up and hosting your own VM.** A dot has its own cloud computer and browser. You can take over that computer to authenticate privately, then return control so it can work with an authorized Obsidian Headless replica while your personal devices are offline. See [OpenAI's computer and login guide](https://learn.chatgpt.com/docs/dots/computers-and-apps).
+
+This also brings the notebook workflow together with ChatGPT's available research, [image generation](https://learn.chatgpt.com/docs/image-generation), and [file tools](https://learn.chatgpt.com/docs/artifacts-viewer). For example, give your dot a teaching-board photo: it can verify the content against sources, flag a correction for your review, create a clearer teaching graphic and PDF with clickable references, and file the result in your notebook when authorized. Follow the [board-pearl workflow](workflows/board-pearl-linked-pdf.md); check which tools your account provides and review the clinical content.
+
+To start, send your dot:
+
+> Read https://github.com/aloopy/pearlbook and help me set up PearlBook on your own cloud computer. Follow the dot setup in the ChatGPT adapter, use Obsidian Headless for my notebook, and guide me through private login. I want to capture teaching material, retrieve my notes, and make source-linked updates. Confirm the private vault location and access before making changes.
+
+The [step-by-step dot setup](docs/platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer) covers Obsidian Sync, private authentication, optional saved source logins, and recovery. You still need a Sync subscription, a backup, and permission to place a decrypted replica on the cloud computer. Reading the repository starts the guided setup; it does not install a local skill in the cloud or grant vault access automatically. No separate MCP host is required for this path.
+
+Spaced-repetition questions drawn from your notes are a future direction to explore, not a configured PearlBook feature or a promise of improved retention.
+
 ### For people
 
 1. **Create or choose the private vault.** Use an existing Obsidian vault or create a new `PearlBook` vault with [Obsidian setup](docs/obsidian-setup.md). Keep it separate from this public repository.
-2. **Choose where PearlBook will run.** Use your primary computer, an extra always-on computer, or a private VM. [Deployment options](docs/deployment-options.md) explains what remains available when a computer is offline.
-3. **Configure one primary agent.** Follow [OpenClaw](docs/platforms/openclaw.md), [Codex/ChatGPT](docs/platforms/codex-chatgpt.md), or [Claude](docs/platforms/claude.md). Do not install all three by default. Keep one `AGENTS.md` at the vault root as the shared rules file; Codex, Claude Code, and OpenClaw can all read it.
+2. **Choose where PearlBook will run.** Choose a dot's cloud computer, your primary computer, an extra always-on computer, or a private VM you manage. [Deployment options](docs/deployment-options.md) explains what remains available when a computer is offline.
+3. **Configure one primary agent.** Follow [OpenClaw](docs/platforms/openclaw.md), [Codex/ChatGPT](docs/platforms/codex-chatgpt.md), or [Claude](docs/platforms/claude.md). Do not install all three by default. Keep one `AGENTS.md` at the vault root as the shared rules file; have the selected agent read it before working on the vault.
 4. **Verify the core workflow.** Confirm that the agent can search a known note, read it, return an exact clickable link, and preview an authorized edit before applying it.
 5. **Review the boundaries.** Before enabling remote access or adding private sources, read [Architecture](docs/architecture.md), the [clinical topic workflow](workflows/clinical-topic.md), and [Security and clinical safety](SECURITY.md).
-6. **Add phone or always-available access only after the core works.** Remote control, messaging, Headless Sync, MCP, and VMs are deployment layers; none replaces the vault or supplies an agent by itself.
+6. **Verify access from your phone after the core works.** A dot can use its own cloud computer; remote access to a personal computer requires that computer to stay online. Headless Sync and MCP are optional deployment components, not agents by themselves.
 7. **Add optional content last.** Migrate an [existing library](workflows/migrate-existing-library.md) if needed, then add institutional or licensed sources useful to your field. [CorePendium](workflows/corependium-browser.md) and the [Glass Health migration](workflows/glass-migration.md) are examples, not requirements.
 
-After installing the [`pearlbook` skill](skills/codex/pearlbook/SKILL.md) for your agent (see its platform page), you can tell the agent **“Set up PearlBook.”** The guided skill resumes from the first incomplete stage and pauses for every folder choice, login, credential, and workspace authorization that requires you.
+For agents with local skill support, after installing the [`pearlbook` skill](skills/codex/pearlbook/SKILL.md) for your agent (see its platform page), you can tell the agent **“Set up PearlBook.”** The guided skill resumes from the first incomplete stage and pauses for every folder choice, login, credential, and workspace authorization that requires you.
 
 ### For agents
 
@@ -34,7 +48,7 @@ After installing the [`pearlbook` skill](skills/codex/pearlbook/SKILL.md) for yo
 - Setting up an Obsidian vault as the agent's durable knowledge base
 - A safe, reviewable workflow for answering clinical questions and maintaining notes
 - A [board-pearl graphic and linked-PDF workflow](workflows/board-pearl-linked-pdf.md), with a reusable prompt and optional notebook capture
-- Distinct setup paths for OpenClaw, Codex/ChatGPT, and Claude
+- Distinct setup paths for ChatGPT dots, local Codex, OpenClaw, Claude, and private tool hosts
 - Optional authenticated-reference access, with EM:RAP CorePendium as an emergency-medicine example
 - A reusable migration method for existing libraries, with Glass Health as one historical case study
 - Portable capability contracts for adapting the design to other agents and specialties
@@ -42,12 +56,13 @@ After installing the [`pearlbook` skill](skills/codex/pearlbook/SKILL.md) for yo
 
 ## Compare the agent options
 
-The three adapters implement the same PearlBook contract but are not interchangeable deployment instructions.
+The platform adapters implement the same PearlBook contract. Choose both the agent and the computer it will use.
 
 | Adapter | Where the agent runs | Phone access | Authenticated browser on the host | Best fit |
 |---|---|---|---|---|
 | [OpenClaw](docs/platforms/openclaw.md) | An always-on personal computer or private VM | A configured messaging app | Yes, after the user logs into a dedicated browser profile | Maximum control; most setup and maintenance |
-| [Codex and ChatGPT](docs/platforms/codex-chatgpt.md) | Local Codex, a dot cloud computer, or ChatGPT using a narrow tool on a persistent host | Codex Remote; ChatGPT mobile for cloud or private-host work | Local or separately authenticated dot browser; no automatic access through a tool-only host | Direct local work, reviewable edits, and an OpenAI-native remote path |
+| [ChatGPT dot](docs/platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer) | Its own cloud computer; no extra computer or self-hosted VM needed | ChatGPT on your phone | Its own browser, with private user login | Notebook work alongside ChatGPT research, image, and file tools |
+| [Codex / ChatGPT private tools](docs/platforms/codex-chatgpt.md) | Local Codex, or a narrow tool on a host you maintain | Codex Remote or ChatGPT with private tools | Local Codex browser; no inherited login through a tool-only host | Direct local work or a narrowly scoped private service |
 | [Claude](docs/platforms/claude.md) | Local Claude Code, or claude.ai using a narrow tool on a persistent host | Remote Control for a connected computer; Claude mobile for a private tool host | Yes with local Claude Code and an approved browser integration; no automatic access through a tool-only host | Direct local work and a Claude-native remote path |
 
 Read the [platform adapter index](docs/platforms/README.md) before combining components. A hybrid setup can be useful, but each additional agent, vault replica, browser profile, or write path adds conflict and security risk.
@@ -72,14 +87,14 @@ The connected computer performs the work and must remain awake and online. An au
 - **Private tool-host VM:** run Obsidian Headless plus PearlBook MCP; ChatGPT or Claude remains the agent.
 - **Agent-host VM:** run OpenClaw with the vault and any explicitly configured browser or research tools.
 
-A VM improves availability but adds cost, maintenance, and responsibility for a decrypted vault replica. Read [Deployment options](docs/deployment-options.md) before choosing this route.
+A VM you manage adds hosting cost and maintenance. A dot supplies the cloud computer; both cloud paths still require care for the decrypted vault replica and its backup. Read [Deployment options](docs/deployment-options.md) before choosing this route.
 
 ## Design principles
 
 - **Clinician-owned:** Markdown, media, and metadata remain locally inspectable.
 - **Vault first:** search existing notes before drafting or editing.
 - **Source before synthesis:** read the primary relevant reference before writing.
-- **Human-authenticated when needed:** users log into selected subscription sites in a dedicated browser profile; local agents may reuse that session, one page at a time for the user's question, without handling credentials.
+- **Human-authenticated when needed:** users log into selected subscription sites in a dedicated browser profile; the authorized local or cloud agent may reuse that session, one page at a time for the user's question, without handling credentials.
 - **Reviewable:** every meaningful change has a source trail and a direct note link.
 - **Portable:** workflows specify capabilities and invariants, not brittle release-specific commands.
 - **Minimal:** notes are concise, useful on shift, and expanded only when the task warrants it.

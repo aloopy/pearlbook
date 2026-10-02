@@ -1,16 +1,18 @@
 ---
 name: pearlbook
-description: Search, answer from, and maintain a user-owned PearlBook clinical learning vault. Use for clinical learning questions, vault retrieval, source-linked synthesis, and explicitly authorized note updates. Do not use it as autonomous clinical decision support or to store patient information.
+description: Set up, search, answer from, and maintain a user-owned PearlBook clinical learning vault. Use for clinical learning questions, vault retrieval, source-linked synthesis, and explicitly authorized note updates. Do not use it as autonomous clinical decision support or to store patient information.
 ---
 
 # PearlBook
 
 This skill works in any agent that supports `SKILL.md` skills (Codex, Claude Code,
-claude.ai, OpenClaw). Platform-specific steps are labeled.
+claude.ai, OpenClaw). A ChatGPT dot can also read these public instructions and
+follow the linked cloud-computer adapter; do not assume a locally installed skill
+is available to the dot. Platform-specific steps are labeled.
 
 Use the narrowest authorized path to the user's private knowledge:
 
-1. an explicitly authorized local vault directory;
+1. an explicitly authorized vault directory on the selected local or cloud computer;
 2. a configured PearlBook MCP tool; or
 3. neither, in which case state that the private vault was not consulted.
 
@@ -21,23 +23,27 @@ Before accessing a local vault, read `references/local-config.md` when it exists
 ## First-run onboarding
 
 When local configuration is absent—or the user asks to set up PearlBook—read
-`references/setup.md` and guide the user from the first incomplete stage. First ask
-which access outcome they want:
+`references/setup.md` and guide the user from the first incomplete stage. Confirm the access outcome only if the user has not already selected it:
 
-1. a local agent (Codex, Claude Code, or OpenClaw) beside the Obsidian vault, recommended for a first setup;
-2. phone access through a computer that remains online; or
-3. always-available access through a private headless host (the bundled runbook covers ChatGPT).
+1. a ChatGPT dot using its own cloud computer, for users who want ChatGPT integration without an extra computer or self-hosted VM;
+2. a local agent (Codex, Claude Code, or OpenClaw) beside the Obsidian vault;
+3. phone access through a personal computer that remains online; or
+4. a private headless host exposing narrow tools (the bundled MCP runbook covers ChatGPT).
+
+For dot mode, use the cloud-computer route in `references/setup.md` instead of
+the local setup script and private MCP stages below. It links to the canonical adapter and its sync,
+configuration-storage, authentication, and recovery checks; no MCP host is required.
 
 For the vault itself, offer two choices:
 
 1. use an existing Obsidian vault; or
 2. create a new `PearlBook` vault, recommended for beginners, at a user-approved location such as `Documents/PearlBook`.
 
-Ask before creating or modifying any folder. Do not discover a vault by searching a home directory. After the user chooses, prefer `scripts/setup_pearlbook.py` with explicit flags (`--existing PATH`, or `--create PATH --yes`) to validate the path, optionally scaffold the starter vault (including a shared `AGENTS.md`), and write the ignored local configuration. Never pass `--yes` until the user has explicitly confirmed creation.
+For local setup, ask before creating or modifying any folder. Do not discover a vault by searching a home directory. After the user chooses, prefer `scripts/setup_pearlbook.py` with explicit flags (`--existing PATH`, or `--create PATH --yes`) to validate the path, optionally scaffold the starter vault (including a shared `AGENTS.md`), and write the ignored local configuration. Never pass `--yes` until the user has explicitly confirmed creation.
 
-Explain that the private Obsidian vault folder and the agent's project or working folder should normally be the same folder. The public PearlBook repository and installed skill remain separate from the private vault.
+For local agents, explain that the private Obsidian vault folder and the agent's project or working folder should normally be the same folder. The public PearlBook repository and installed skill remain separate from the private vault.
 
-For headless ChatGPT access, read `references/headless-chatgpt.md`. Treat setup as
+For the private MCP host path, read `references/headless-chatgpt.md`. Treat setup as
 complete only after Headless Sync is healthy, the MCP tools pass direct tests, the
 preview-and-apply write flow passes with a disposable note, ChatGPT discovers the
 tools, and a new chat successfully searches, reads, and—with explicit approval—
@@ -76,7 +82,7 @@ Use the vault name and vault-relative path, not an absolute local path. Percent-
 
 - Do not store PHI, reconstructable patient cases, credentials, cookies, or browser profiles.
 - Do not reproduce licensed or paywalled source content; store your own summary and a link back to the source.
-- Never request, handle, or store a human password, MFA seed, or recovery code. A password-manager fill that the user approves on their own device is acceptable because the secret never reaches the agent.
+- Never request, handle, or store a human password, MFA seed, or recovery code. A user-approved password-manager fill or platform private sign-in is acceptable when the secret goes directly to the intended service without reaching the agent or chat.
 - Never say the vault or a source was checked when access failed.
 - Treat outputs as clinician-reviewed educational knowledge management, not autonomous patient-care decisions.
 - Ask before destructive, broad, or externally visible changes.
