@@ -76,8 +76,33 @@ relative to the installed skill folder (the folder containing `SKILL.md`):
 python3 scripts/check_headless_readiness.py --vault ~/PearlBookHeadless
 ```
 
-Ask before installing global software or creating the directory. Then guide the
-user through the official Headless commands:
+Ask before installing global software or creating the directory. On Linux, first
+choose a dedicated private configuration root on the host's persistent storage:
+
+```bash
+umask 077
+export XDG_CONFIG_HOME="/path/to/private-storage/pearlbook-config"
+mkdir -p "$XDG_CONFIG_HOME"
+chmod 700 "$XDG_CONFIG_HOME"
+```
+
+This is a placeholder, not a platform-provided durable path. Pin the same absolute
+value in every login/setup/status/sync wrapper and the OS service environment;
+an export in one terminal does not configure another. Headless 0.0.14 stores its
+account token, vault settings, device identity, and sync database beneath this
+root on Linux. macOS/Windows use `~/.obsidian-headless` in that version; protect
+the actual state directory for the service account and recheck on upgrades.
+`--config-dir` controls the vault's `.obsidian` folder, not this global state.
+Keep state outside the vault, repositories, and public backups; never copy or
+print tokens to repair a login mismatch. See the [configuration and recovery
+checks](../../../../docs/platforms/codex-chatgpt.md#7-recover-without-exposing-credentials),
+which also distinguish fresh-process checks from actual restart tests.
+
+Use a new empty vault directory. If an older replica has lost its sync database,
+stop sync and preserve it as a dated private backup outside the active sync path,
+then rebuild into an empty directory from remote in pull-only mode. Otherwise
+stale files could upload and restore remote deletions. Guide the user through the
+official Headless commands with the chosen configuration root active:
 
 ```bash
 npm install -g obsidian-headless
@@ -92,8 +117,11 @@ ob sync-status --path ~/PearlBookHeadless
 
 Pause while the user completes authentication. Do not put password or MFA flags in
 shell history. Inspect `ob sync-status` and a known Markdown filename before
-continuing. Run `ob sync --continuous --path ~/PearlBookHeadless` under an
-OS-appropriate user service only after the one-time sync succeeds.
+continuing, and confirm known remote deletions stay absent. Run
+`ob sync --continuous --path ~/PearlBookHeadless` under an OS-appropriate user
+service only after the one-time sync succeeds. Verify that the service resolves
+the same private state and vault paths after restart; installed files or a new
+shell alone do not establish service availability or persistence.
 
 Official references:
 

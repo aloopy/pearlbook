@@ -43,6 +43,8 @@ A managed browser login is separate from an active session, which can expire. Sa
 - Keep the operating system, runtime, and dependencies patched.
 - Prefer an outbound-only private connection; do not expose a public shell or file browser.
 - Keep synchronization state on persistent storage and maintain an independent vault backup.
+- Pin Headless configuration storage consistently across interactive terminals and services. Protect directories with 0700 permissions and token/key files with 0600; keep them outside synced notebooks, repositories, and public backups. Do not copy authentication state to fix a context mismatch: it can expose credentials and duplicate device identity. Missing local state is not proof of server-side token expiry.
+- After losing the sync database, preserve a stale replica outside active sync and rebuild from remote into an empty directory in pull-only mode. Verify remote deletions remain absent before authorizing uploads.
 - Avoid logging note bodies, browser data, queries containing sensitive details, or tool responses by default.
 - Test restore, session-expiry, tool-unavailable, and sync-conflict behavior.
 

@@ -96,17 +96,7 @@ Use a platform's remote-control surface or a narrowly configured messaging adapt
 
 ### 3. Always-available private host
 
-Run Obsidian Headless on a persistent private host with an active Obsidian Sync subscription:
-
-```bash
-npm install -g obsidian-headless
-ob login
-ob sync-list-remote
-ob sync-setup --vault "REMOTE VAULT NAME" --path ~/PearlBookHeadless --device-name pearlbook-headless
-ob sync --path ~/PearlBookHeadless --continuous
-```
-
-Obsidian currently documents Node.js 22 or later. The [headless runbook](../skills/codex/pearlbook/references/headless-chatgpt.md) starts in `pull-only` mode and checks `ob sync-status` before running continuously. Back up the vault before initial setup, and do not run desktop Sync and Headless Sync against the same local vault on one device.
+Run Obsidian Headless on a persistent private host with an active Obsidian Sync subscription and Node.js 22 or later. Follow the [headless runbook](../skills/codex/pearlbook/references/headless-chatgpt.md) to pin private configuration storage, start in `pull-only` mode, and check `ob sync-status` before running continuously. The vault files and Headless account/device/sync state must both survive; a synced folder alone does not establish persistence. If sync state is lost, preserve the old replica outside sync and rebuild from remote into an empty directory before allowing uploads. Back up the vault before initial setup, and do not run desktop Sync and Headless Sync against the same local vault on one device.
 
 Expose only narrow PearlBook operations to the conversation surface, for example:
 
