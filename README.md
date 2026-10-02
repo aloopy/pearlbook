@@ -33,6 +33,7 @@ After installing the [`pearlbook` skill](skills/codex/pearlbook/SKILL.md) for yo
 
 - Setting up an Obsidian vault as the agent's durable knowledge base
 - A safe, reviewable workflow for answering clinical questions and maintaining notes
+- A [board-pearl graphic and linked-PDF workflow](workflows/board-pearl-linked-pdf.md), with a reusable prompt and optional notebook capture
 - Distinct setup paths for OpenClaw, Codex/ChatGPT, and Claude
 - Optional authenticated-reference access, with EM:RAP CorePendium as an emergency-medicine example
 - A reusable migration method for existing libraries, with Glass Health as one historical case study

@@ -2,6 +2,8 @@
 
 This workflow separates **answering** from **editing**. A question authorizes inspection and an evidence-backed reply; it does not automatically authorize broad vault rewrites.
 
+For a user-requested teaching graphic from a board photo, use the [board-pearl graphic and linked-PDF workflow](board-pearl-linked-pdf.md). It preserves the board's teaching content, adds verified clickable references, and makes notebook storage optional.
+
 ## Default sequence
 
 ### 1. Search the vault
