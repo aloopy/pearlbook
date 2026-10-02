@@ -4,7 +4,7 @@ PearlBook has one workflow contract and three primary agent adapters. Choose the
 
 **People:** choose the simplest adapter that meets your availability and phone-access needs, then follow only that setup page.
 
-**Agents:** first establish which computer or VM can remain online and how the user wants to reach PearlBook. If the user has not chosen a platform, help them choose from [Deployment options](../deployment-options.md) before creating files, installing software, or requesting credentials.
+**Agents:** first establish whether the user wants a dot's cloud computer or a host they maintain, and how they want to reach PearlBook. If the user has not chosen a platform, help them choose from [Deployment options](../deployment-options.md) before creating files, installing software, or requesting credentials.
 
 ## Shared contract
 
@@ -34,6 +34,8 @@ Authenticated reference browsing is optional. It can use a local or cloud agent'
 Read [OpenClaw setup](openclaw.md).
 
 ### Codex and ChatGPT
+
+**Choose a dot for ChatGPT integration without bringing an extra computer or hosting a VM.** Its cloud computer holds the authorized replica and its browser supports private user login. Available ChatGPT tools can turn retrieved learning material into images and files; the [board-pearl workflow](../../workflows/board-pearl-linked-pdf.md) is one example. Local Codex and a private MCP host remain separate choices.
 
 - **Local agent:** Codex on the computer that holds the vault
 - **Phone surface:** Codex Remote steers that connected computer

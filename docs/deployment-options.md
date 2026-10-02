@@ -1,6 +1,8 @@
 # Deployment options
 
-PearlBook separates the **public framework** from the **private knowledge store**. Personal notes remain in a user-controlled Obsidian vault. Start by deciding which computer can remain available, then decide whether that computer will run a full agent or only expose narrow vault tools.
+PearlBook separates the **public framework** from the **private knowledge store**. Personal notes remain in a user-controlled Obsidian vault. First choose between a dot's supplied cloud computer and a host you maintain. For a host you maintain, decide whether it runs a full agent or only exposes narrow vault tools.
+
+For ChatGPT users who want access without an extra always-on computer or a separately hosted VM, start with [the dot cloud-computer path](#pattern-5-a-dot-cloud-computer-for-on-demand-work). It combines direct vault work with the ChatGPT tools available to the account. The self-managed patterns below remain useful when local control or a narrow private service matters more.
 
 ## Agent host versus tool host
 
