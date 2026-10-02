@@ -4,7 +4,7 @@ Codex and ChatGPT can share the same PearlBook workflow while using different ac
 
 Choose local Codex beside the vault, Codex Remote steering that computer from a phone, ChatGPT calling narrow tools on a private host, or a dot using Headless Sync on its own cloud computer ([Option 4](#option-4-headless-obsidian-on-a-dot-cloud-computer)). Do not assume that ChatGPT can read a local vault merely because Codex can.
 
-This adapter was verified against official OpenAI documentation on 2026-09-22 (first verified 2026-08-26). The dot cloud-computer and cloud-environment guidance below was checked on 2026-09-30. Platform availability depends on rollout and workspace settings; re-verify the linked documentation before relying on account-specific features.
+This adapter was verified against official OpenAI documentation on 2026-09-22 (first verified 2026-08-26). The dot cloud-computer persistence guidance was rechecked on 2026-10-02; cloud-environment guidance was checked on 2026-09-30. Platform availability depends on rollout and workspace settings; re-verify the linked documentation before relying on account-specific features.
 
 ## Option 1: local Codex
 
@@ -98,7 +98,13 @@ The durable workflow is **capture → retrieve → verify → minimal update →
 
 You need an active Obsidian Sync subscription, an existing remote vault, its account login, and its separate end-to-end encryption password if enabled. Finish syncing and back up the original vault first. Use one Sync client per local replica; do not point desktop Sync and Headless Sync at the same directory.
 
-Ask the dot to use its **own cloud computer**, choose a private workspace outside any public repository, and record the runtime and vault paths for later use. The following Linux adapter example uses generic paths under your cloud home folder; substitute your chosen locations consistently. These commands are for that cloud computer, not your laptop or a Codex repository task.
+Ask the dot to use its **own cloud computer** and choose a private, non-temporary workspace outside any repository, synced notebook, or public backup. Record separate runtime, vault, backup, and configuration paths locally. The Linux examples below use a **placeholder** workspace path: replace it consistently, including inside the wrapper. These commands are for that cloud computer, not your laptop or a Codex repository task.
+
+On Linux, Headless 0.0.14 puts its account token, vault configuration, device identity, and sync database under `XDG_CONFIG_HOME/obsidian-headless` (falling back to `~/.config/obsidian-headless`). The vault directory alone is insufficient. In the observed failure, the desktop terminal inherited a runtime-specific configuration path under `/dev/shm`, while the execution shell used a different location. After the host changed, account and vault state were missing even though workspace files survived. A local “no account” error is not evidence of server-side token expiry. This storage behavior is visible in the [official client source](https://github.com/obsidianmd/obsidian-headless/blob/0.0.14/cli.js); recheck it when upgrading.
+
+Pin one private `XDG_CONFIG_HOME` in every login, setup, status, and sync entry point. `--config-dir` names the vault's `.obsidian` folder; it does **not** relocate global authentication or sync state. Do not copy tokens or use `OBSIDIAN_AUTH_TOKEN` to conceal a path mismatch. Reauthenticate interactively in the chosen location.
+
+The [dot computer documentation](https://learn.chatgpt.com/docs/dots/computers-and-apps#use-the-cloud-computer) says state can remain between uses; it specifies neither a durable credential path nor a VM-replacement guarantee. Workspace survival in one observed replacement is not such a guarantee. Keep independent private vault backups and distinguish process tests from host-restart or replacement tests.
 
 ### 2. Install the official Headless client locally
 
@@ -106,38 +112,52 @@ Use the maintained [Obsidian Headless client](https://github.com/obsidianmd/obsi
 
 ```bash
 node --version
-mkdir -p "$HOME/pearlbook-private/runtime" "$HOME/pearlbook-private/vault"
-chmod 700 "$HOME/pearlbook-private"
-cd "$HOME/pearlbook-private/runtime"
+# Replace this placeholder; set PB_ROOT again in each new terminal.
+PB_ROOT="/path/to/private-workspace/pearlbook-private"
+umask 077
+mkdir -p "$PB_ROOT/runtime" "$PB_ROOT/vault" "$PB_ROOT/bin" "$PB_ROOT/config"
+chmod 700 "$PB_ROOT" "$PB_ROOT/runtime" "$PB_ROOT/vault" "$PB_ROOT/bin" "$PB_ROOT/config"
+cd "$PB_ROOT/runtime"
 npm init --yes
 npm install --save-exact obsidian-headless@0.0.14
 ./node_modules/.bin/ob --help
 ```
 
-The workspace-local install needs no global package installation. Stop if the runtime is too old or installation is blocked; use an approved runtime or the private-host option. Keep dependencies outside the vault.
+The workspace-local install needs no global package installation. Stop if the runtime is too old or installation is blocked; use an approved runtime or the private-host option. Keep dependencies outside the vault. Create `$PB_ROOT/bin/pb-ob` with the following contents, replacing its placeholder with the **same absolute path**, and run `chmod 700 "$PB_ROOT/bin/pb-ob"`:
+
+```sh
+#!/bin/sh
+set -eu
+umask 077
+PB_ROOT="/path/to/private-workspace/pearlbook-private"
+export XDG_CONFIG_HOME="$PB_ROOT/config"
+unset OBSIDIAN_AUTH_TOKEN
+exec "$PB_ROOT/runtime/node_modules/.bin/ob" "$@"
+```
+
+Use this wrapper for every authenticated command, including inside any `pb-sync.sh` helper or service. It deliberately overrides a runtime-provided XDG path on each invocation. Keep its config directory private (0700); the tested client creates token/key files with 0600 permissions. Do not print their contents, place secrets in the wrapper, or back up authentication state into a notebook or public archive. Copying it can expose credentials and duplicate device/sync identity.
 
 ### 3. Sign in privately through desktop takeover
 
-Open **dot profile → Computers → cloud computer → Take over**. In the cloud desktop's native **Terminal**, run:
+Open **dot profile → Computers → cloud computer → Take over**. In the cloud desktop's native **Terminal**, set `PB_ROOT` to the chosen absolute workspace path from step 2, then run:
 
 ```bash
-cd "$HOME/pearlbook-private/runtime"
-./node_modules/.bin/ob login
+"$PB_ROOT/bin/pb-ob" login
 ```
 
 Enter your Obsidian account email, account password, and MFA response at the interactive prompts yourself. Do not paste them into chat, command flags, scripts, or shell history. Then select **Return control**. The takeover controls are documented in [Computers and apps](https://learn.chatgpt.com/docs/dots/computers-and-apps).
 
-Keep subsequent authenticated commands in that same terminal context. A script execution shell may share files with the desktop yet not see its login. If another shell reports that you are signed out, return to the authenticated context; do not copy tokens, dump credential files, or assume shared folders imply shared authentication.
+Use the same wrapper from the desktop terminal and execution shell. Before authentication, check only paths, ownership, permissions, and a non-secret marker in the chosen config root; never dump the environment or credential files. If either context cannot access that root, stop and resolve the storage or permission mismatch before asking the user to log in.
 
 ### 4. Connect the remote vault and finish the first sync
 
-In the authenticated terminal, list vaults and select the exact remote name:
+Start with an empty local vault directory. If an earlier replica exists but its sync state is missing, follow [recovery](#7-recover-without-exposing-credentials) first. In the terminal, list vaults and select the exact remote name:
 
 ```bash
-./node_modules/.bin/ob sync-list-remote
-./node_modules/.bin/ob sync-setup \
+"$PB_ROOT/bin/pb-ob" sync-list-remote
+"$PB_ROOT/bin/pb-ob" sync-setup \
   --vault "REMOTE VAULT NAME" \
-  --path "$HOME/pearlbook-private/vault" \
+  --path "$PB_ROOT/vault" \
   --device-name "pearlbook-cloud"
 ```
 
@@ -146,19 +166,25 @@ For an encrypted vault, take over again and enter the **vault encryption passwor
 Inspect settings before syncing:
 
 ```bash
-./node_modules/.bin/ob sync-config --path "$HOME/pearlbook-private/vault"
+"$PB_ROOT/bin/pb-ob" sync-config --path "$PB_ROOT/vault"
 ```
 
-The tested setup used **bidirectional** Sync, **merge** conflict handling, and disabled configuration syncing. Bidirectional means local changes can upload; it is not a read-only mount. Confirm those choices fit your intended workflow. For this read/write example, make them explicit:
+Set **pull-only** before the first sync, with configuration syncing disabled. Setup defaults to bidirectional mode, so do not run sync between setup and this configuration step:
 
 ```bash
-./node_modules/.bin/ob sync-config --path "$HOME/pearlbook-private/vault" \
-  --mode bidirectional --conflict-strategy merge --configs ""
-./node_modules/.bin/ob sync --path "$HOME/pearlbook-private/vault"
-./node_modules/.bin/ob sync-status --path "$HOME/pearlbook-private/vault"
+"$PB_ROOT/bin/pb-ob" sync-config --path "$PB_ROOT/vault" \
+  --mode pull-only --conflict-strategy merge --configs ""
+"$PB_ROOT/bin/pb-ob" sync --path "$PB_ROOT/vault"
+"$PB_ROOT/bin/pb-ob" sync-status --path "$PB_ROOT/vault"
 ```
 
-Wait for the one-shot sync to finish and report **Fully synced** before editing. Check that a known note and its expected attachment arrived. Inspect file-type and exclusion settings if an image is missing; do not recreate it from memory. For retrieval only, choose `--mode pull-only` before the first sync and leave writes disabled. See the [official command reference](https://github.com/obsidianmd/obsidian-headless#commands).
+Wait for the one-shot sync to finish and report **Fully synced** before editing. Check that a known note and its expected attachment arrived. Inspect file-type and exclusion settings if an image is missing; do not recreate it from memory. Confirm that notes previously deleted on the remote remain absent locally. For retrieval only, keep `pull-only` and leave writes disabled. After these checks and the user's authorization to upload changes, enable bidirectional mode explicitly:
+
+```bash
+"$PB_ROOT/bin/pb-ob" sync-config --path "$PB_ROOT/vault" --mode bidirectional
+```
+
+Bidirectional Sync uploads local changes; it is not a read-only mount. See the [official command reference](https://github.com/obsidianmd/obsidian-headless#commands).
 
 ### 5. Connect a trusted source and optionally save its login
 
@@ -180,7 +206,7 @@ Use the [clinical topic workflow](../../workflows/clinical-topic.md) after every
 2. Preserve any user-provided source image unchanged, provided it is appropriate to retain and contains no PHI. Record its provenance and initial SHA-256; do not confuse it with permission to archive licensed screenshots.
 3. Back up the original note outside the synced vault in a private backup folder, and record its SHA-256. Propose the smallest useful change with source links and dates. Apply only the authorized change after reviewing the diff.
 4. Recheck the original hash immediately before writing. If another edit changed it, reread and reconcile rather than overwrite. Verify the final diff, frontmatter, internal links, attachment paths, and the unchanged image hash.
-5. Run the same one-shot `ob sync --path` command again in the authenticated context. Verify the expected uploads and **Fully synced**. Reopen the note if Sync merged changes; a successful transfer alone does not establish that a clinical merge is correct.
+5. Run the same wrapper for one-shot sync again: `"$PB_ROOT/bin/pb-ob" sync --path "$PB_ROOT/vault"`. Verify the expected uploads and **Fully synced**. Reopen the note if Sync merged changes; a successful transfer alone does not establish that a clinical merge is correct.
 6. Return the exact note path and link, summarize the edit and verification, and ask the user to check arrival on another Obsidian device when available.
 
 A note-and-source-image update completed this cloud-side sequence in testing on 2026-09-30. Arrival on a second device was not independently confirmed. This guide establishes on-demand sync, not an always-running daemon, guaranteed disk durability, or indefinite login persistence. Keep the independent backup and repeat the access/sync checks when resuming work.
@@ -190,19 +216,31 @@ A note-and-source-image update completed this cloud-side sequence in testing on 
 | Symptom | Next step |
 |---|---|
 | Node fetch fails with `ECONNREFUSED` while an approved HTTPS proxy is already configured | Check whether Node is using the existing proxy; use the conditional command below on a supporting runtime. |
-| Script shell cannot see the desktop login | Continue in the native terminal that completed login; reauthenticate privately if required. Never move authentication files between contexts. |
+| Script shell cannot see the desktop login, or reports “no account” | Check that both use the same wrapper, config root, and OS user. Missing local state can cause this before any server call; do not diagnose token expiry from it. If state is lost, authenticate privately in the pinned root. Never move authentication files between contexts. |
 | Sync fails, is incomplete, or reports a conflict | Stop edits; keep the backup and local change, resolve connectivity or reconcile the conflict, then sync and inspect again. Do not reset or overwrite the remote vault to force success. |
 | Source session expires or the site rejects cloud access | Request private login/verification, or use an authorized local browser with its own login. State when the source remains unavailable. |
-| Cloud files or setup are missing after returning | Recreate the private replica from Sync and the independent backup, repeat private authentication, and finish sync before editing. Do not assume old paths or sessions survived. |
+| Vault files remain but account, device, or sync database state is missing | Stop sync and edits; follow the fresh-replica recovery below. Reattaching a stale directory with default bidirectional sync can upload old files and resurrect remote deletions. |
+| Cloud files or setup are missing after returning | Check the recorded paths and permissions, then restore the client and use fresh-replica recovery. Do not assume paths, state, or sessions survived. |
 
-In the tested Node 24.19.0 terminal, native fetch initially failed because Node had not opted into the configured proxy. This command used the existing approved route:
+**Fresh-replica recovery after lost sync state:** stop active sync processes; preserve the old vault as a dated private backup **outside** the active sync path. Create a new empty vault directory, use the pinned wrapper for private login and `sync-setup`, then set `pull-only` before the first sync. Verify expected notes and attachments, **Fully synced**, and that known remote deletions remain absent. Review any unsynced local changes from the backup individually; never copy the stale tree wholesale into the fresh replica. Enable bidirectional mode only after review and authorization. `mirror-remote` also downloads only but reverts local changes; do not use it to skip preserving the old replica.
+
+**Resume and persistence checklist:**
+
+- [ ] Desktop Terminal, execution shell, new processes, and sync helpers use the same explicit config root and wrapper.
+- [ ] A non-secret marker created there is visible from each context; ownership and 0700 directory permissions are correct. Check only marker contents, never token/key contents.
+- [ ] Private user login and encryption setup are complete; local vault association and settings are visible through the wrapper.
+- [ ] First/recovery sync is pull-only; expected files arrived, known deletions stayed deleted, and status is fully synced.
+- [ ] For authorized writes, bidirectional mode and arrival on a second device are checked separately.
+- [ ] Record exactly which survival checks passed: new shell/process, later session, actual host restart, or host replacement. A new shell is **not** a VM restart test. Recheck state and sync before each resumed edit; never promise indefinite authentication or an always-on service.
+
+In the tested Node 24.19.0 terminal, native fetch initially failed because Node had not opted into the configured proxy. When the same problem occurs, adapt the wrapper to use that existing approved route:
 
 ```bash
-node --use-env-proxy "$HOME/pearlbook-private/runtime/node_modules/.bin/ob" \
-  sync --path "$HOME/pearlbook-private/vault"
+# Replace the wrapper's final exec line only when this proxy fix is needed:
+exec node --use-env-proxy "$PB_ROOT/runtime/node_modules/.bin/ob" "$@"
 ```
 
-Use the same prefix for `login` or `sync-setup` if those commands encounter the same issue, retaining their private interactive prompts. [Node documents `--use-env-proxy`](https://nodejs.org/download/release/v24.19.0/docs/api/cli.html#--use-env-proxy); it is conditional troubleshooting, not a universal Headless requirement. Do not print proxy secrets, invent a proxy, disable TLS validation, or bypass network policy. If the approved route still fails, stop and report the blocker.
+Keep the wrapper's XDG export and restrictive umask in place so `login`, `sync-setup`, and sync all use the same state, retaining private interactive prompts. [Node documents `--use-env-proxy`](https://nodejs.org/download/release/v24.19.0/docs/api/cli.html#--use-env-proxy); it is conditional troubleshooting, not a universal Headless requirement. Do not print proxy secrets, invent a proxy, disable TLS validation, or bypass network policy. If the approved route still fails, stop and report the blocker.
 
 ## Deliver a note link
 
