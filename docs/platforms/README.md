@@ -50,7 +50,8 @@ Read [Codex and ChatGPT setup](codex-chatgpt.md).
 
 - **Local agent:** Claude Code on the computer that holds the vault
 - **Phone surface:** Remote Control steers that connected computer
-- **Always-available alternative:** claude.ai calls a narrow remote MCP tool on a persistent private host
+- **Always-available vault alternative:** claude.ai calls a narrow remote MCP tool on a persistent private host
+- **Optional cloud companion:** [Claude Duet preview](claude.md#optional-claude-duet-research-preview) can prepare research and drafts without an online personal computer; it cannot see local files and is not a tested PearlBook/Obsidian integration
 - **Browser boundary:** local Claude Code may use an approved browser integration; claude.ai through a tool-only host does not inherit the host's browser login
 - **Tradeoff:** a Claude-native local and remote-control path; the operator must provide secure ingress for an always-available remote MCP service
 

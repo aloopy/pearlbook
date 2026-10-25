@@ -86,6 +86,10 @@ When available, a dot can keep a private Headless Sync replica on its own cloud 
 
 This is distinct from an ephemeral Codex repository task. It also does not make a tool-only host inherit the cloud browser's session.
 
+### Optional companion: Claude Duet preview
+
+[Claude Duet](platforms/claude.md#optional-claude-duet-research-preview) supplies a cloud agent and browser for background tasks, but this is not evidence of a supported Obsidian Headless host or direct vault integration. Use the documented research/draft handoff, then review and import through an existing vault-access path. Keep the vault as the authoritative store; do not substitute Duet memory for it.
+
 ## Recommended tiers
 
 ### 1. Local first

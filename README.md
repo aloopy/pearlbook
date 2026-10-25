@@ -23,6 +23,10 @@ The [step-by-step dot setup](docs/platforms/codex-chatgpt.md#option-4-headless-o
 
 Spaced-repetition questions drawn from your notes are a future direction to explore, not a configured PearlBook feature or a promise of improved retention.
 
+### Use Claude Duet as an optional learning companion
+
+[Claude Duet](docs/platforms/claude.md#optional-claude-duet-research-preview) adds background research and draft preparation on its own cloud computer. It is a limited research preview, not a tested PearlBook vault integration. Use public educational material or synthetic examples, review the output, then explicitly import it through an existing vault-access path. Duet cannot see files on your computer; do not assume it can sync Obsidian or run the local setup scripts.
+
 ### For people
 
 1. **Create or choose the private vault.** Use an existing Obsidian vault or create a new `PearlBook` vault with [Obsidian setup](docs/obsidian-setup.md). Keep it separate from this public repository.
@@ -63,7 +67,8 @@ The platform adapters implement the same PearlBook contract. Choose both the age
 | [OpenClaw](docs/platforms/openclaw.md) | An always-on personal computer or private VM | A configured messaging app | Yes, after the user logs into a dedicated browser profile | Maximum control; most setup and maintenance |
 | [ChatGPT dot](docs/platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer) | Its own cloud computer; no extra computer or self-hosted VM needed | ChatGPT on your phone | Its own browser, with private user login | Notebook work alongside ChatGPT research, image, and file tools |
 | [Codex / ChatGPT private tools](docs/platforms/codex-chatgpt.md) | Local Codex, or a narrow tool on a host you maintain | Codex Remote or ChatGPT with private tools | Local Codex browser; no inherited login through a tool-only host | Direct local work or a narrowly scoped private service |
-| [Claude](docs/platforms/claude.md) | Local Claude Code, or claude.ai using a narrow tool on a persistent host | Remote Control for a connected computer; Claude mobile for a private tool host | Yes with local Claude Code and an approved browser integration; no automatic access through a tool-only host | Direct local work and a Claude-native remote path |
+| [Claude Code / private tools](docs/platforms/claude.md) | Local Claude Code, or claude.ai using a narrow tool on a persistent host | Remote Control for a connected computer; Claude mobile for a private tool host | Yes with local Claude Code and an approved browser integration; no automatic access through a tool-only host | Direct local work and a Claude-native remote path |
+| [Claude Duet preview](docs/platforms/claude.md#optional-claude-duet-research-preview) | Its own cloud computer | Duet app or claude.ai | Separate cloud browser, not the local browser session | Optional research/drafts with a reviewed handoff; no tested Obsidian integration |
 
 Read the [platform adapter index](docs/platforms/README.md) before combining components. A hybrid setup can be useful, but each additional agent, vault replica, browser profile, or write path adds conflict and security risk.
 
@@ -83,6 +88,7 @@ The connected computer performs the work and must remain awake and online. An au
 
 ### No personal computer stays on
 
+- **Claude Duet preview:** can prepare research and drafts while devices are off, but does not provide established local-vault access. See the [Duet handoff workflow](docs/platforms/claude.md#optional-claude-duet-research-preview) before treating output as a saved note.
 - **Dot cloud computer:** use on-demand Obsidian Headless Sync and a separately authenticated cloud browser. Follow the [step-by-step ChatGPT setup](docs/platforms/codex-chatgpt.md#option-4-headless-obsidian-on-a-dot-cloud-computer), including private login, optional saved passwords, and recovery. Keep an independent vault backup; this path does not promise a continuously running sync service.
 - **Private tool-host VM:** run Obsidian Headless plus PearlBook MCP; ChatGPT or Claude remains the agent.
 - **Agent-host VM:** run OpenClaw with the vault and any explicitly configured browser or research tools.

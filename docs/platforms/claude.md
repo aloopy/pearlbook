@@ -2,9 +2,9 @@
 
 Claude Code and claude.ai can implement the PearlBook workflow with the same separation used elsewhere in this repository: the public framework stays in this repo, and the private vault stays on machines the clinician controls.
 
-Use this adapter for one of three distinct paths: local Claude Code beside the vault, Remote Control steering that computer from a phone, or claude.ai calling narrow vault tools on a persistent private host. Do not assume that claude.ai can read a local vault merely because Claude Code can.
+For direct vault work, use one of three distinct paths: local Claude Code beside the vault, Remote Control steering that computer from a phone, or claude.ai calling narrow vault tools on a persistent private host. Do not assume that claude.ai can read a local vault merely because Claude Code can. The optional Duet preview below is a separate research/draft companion, not a fourth verified vault-access path.
 
-This adapter was verified against official Claude documentation on 2026-09-22 (first drafted 2026-08-24). Platform capabilities, plans, and defaults change; re-verify the linked documentation before relying on plan- or version-specific details.
+The original local, Remote Control, and private-tool guidance was verified against official Claude documentation on 2026-09-22 (first drafted 2026-08-24); Duet-specific verification is dated separately below. Platform capabilities, plans, and defaults change; re-verify the linked documentation before relying on plan- or version-specific details.
 
 ## Option 1: local Claude Code
 
@@ -90,6 +90,28 @@ Claude-specific adapter details:
 
 The tool-host boundaries are identical to the ChatGPT pattern: claude.ai is the agent, the host is only a tool server, the host's browser logins are not inherited, and public research is limited to what the claude.ai conversation surface provides.
 
+## Optional: Claude Duet research preview
+
+**Duet-specific facts verified 2026-10-25; the PearlBook workflow below is proposed, not integration-tested.** [Claude Duet](https://claude.com/resources/articles/claude-duet) is a proactive agent with its own cloud computer and browser, so background work can continue while personal devices are off. It is available on iOS, Android, and claude.ai.
+
+The preview currently requires a US Pro or Max account and a waitlist invitation; it is not available on Team or Enterprise. Background work shares the account's plan limits. Follow the [current setup and limitations](https://support.claude.com/en/articles/17631495-get-started-with-claude-duet), not the local Claude Code installation steps.
+
+### Vault boundary and suggested handoff
+
+Duet cannot see files on your computer. The reviewed Duet documentation does not establish a native Obsidian connector, Headless Sync hosting, or execution of PearlBook's local scripts. Existing Claude skills and connections carrying over does not itself grant vault access. Keep Claude Code, Remote Control, and the private-tool path above separate.
+
+For an educational capture or research task:
+
+1. Search the vault first through an authorized local agent or private tool, without exporting private note text to Duet. If unavailable, label any result standalone, unverified capture; say the vault was not consulted and defer canonical-note and import decisions.
+2. Provide Duet a public source or synthetic learning question, never PHI, identifiable patient details, private vault exports, or copied licensed material.
+3. Request a concise Markdown draft with source URLs, an evidence date, uncertainty, and suggested tags. Require it to say which sources it actually consulted.
+4. Have the clinician verify the sources and clinical content, then choose the canonical note using the vault search.
+5. Explicitly approve and copy/import the reviewed draft through that existing vault-access path. Check links, attachments, and the exact saved note path; a Duet result is not proof that the vault was updated.
+
+Use the [shared validation checklist](../obsidian-setup.md#8-validation-checklist). If Duet access or a requested source is unavailable, retain the draft as unverified and continue with an existing adapter; never claim the vault or source was consulted.
+
+Duet's [privacy safeguards](https://claude.com/resources/articles/claude-duet-safety-privacy-and-security) are not a guarantee: a specific user request can itself count as consent to share health information. Do not rely on an extra confirmation to prevent disclosure. The workflow above remains public/synthetic educational work, not authorization to process PHI or a claim of clinical suitability.
+
 ## Optional authenticated reference browsing
 
 When a user's field requires a licensed or institutional source, the [Claude in Chrome](https://code.claude.com/docs/en/chrome.md) extension can connect Claude Code to a Chrome (or other Chromium-based) browser and satisfy the shared authenticated-browser trust boundary.
@@ -118,7 +140,8 @@ CorePendium is one emergency-medicine example of this optional pattern; follow t
 |---|---|
 | Work directly with a local vault | Claude Code with the vault as the working directory and a root `AGENTS.md` |
 | Message from a phone while a computer is online | Remote Control steering the local session |
-| Access when the personal computer is offline | claude.ai plus persistent private host and a narrow, authenticated remote-MCP connector |
+| Search/edit the vault when the personal computer is offline | claude.ai plus persistent private host and a narrow, authenticated remote-MCP connector |
+| Prepare research or learning drafts while personal devices are off | Duet preview, followed by a clinician-reviewed handoff to an existing vault-access path |
 | Read licensed references | Claude in Chrome over a dedicated, clinician-authenticated browser profile |
 | Improve the public framework | Cloud session or local checkout of this repository |
 
