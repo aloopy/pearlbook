@@ -29,6 +29,7 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 | Local computer | User-authenticated browser profile; local OS protections | Password text, MFA seed, recovery code, exported cookies |
 | Private headless host | Scoped machine tokens required by the sync or narrow tool | Human website passwords or unrestricted home-directory access |
 | Dot cloud computer | Authorized private vault replica; user-authenticated source session; optional user-approved managed login | Passwords exposed to the agent/chat, copied authentication state, PHI |
+| Claude Duet (research preview) | Narrow, approval-gated connectors; private in-app sign-in form; per-request 1Password approval once available | Vault replica, PHI (Duet memory persists until reset), passwords in chat, "don't ask again" for vault writes |
 | Cloud coding environment | Minimum scoped machine credential for public-repository development | Personal vault, licensed-site credentials, browser state, human passwords |
 | Private PearlBook tool | Tool-specific authentication and least-privilege vault path | General shell, arbitrary filesystem root, secret-store browsing |
 
