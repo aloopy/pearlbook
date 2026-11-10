@@ -41,6 +41,32 @@ The agent:
 
 Never place credentials, cookies, storage state, browser-profile archives, screenshots of account data, or copied subscription content in Git or in the vault.
 
+## Optional: sign in with a password manager
+
+For CorePendium or any other source you have a login for, a password manager can sign the agent's browser in for you. The password never reaches the agent. This works the same way whichever agent you use: the agent reaches the login page and asks for the credential, you approve that one item on your own device, and the password manager fills it directly into the site. The agent learns which login was used but never sees the password or one-time code.
+
+[1Password for Agents](https://1password.com/blog/1password-for-ai-agents) is 1Password's general version of this, built for agent apps and cloud browsers from many vendors. Each integration is opt-in, so connecting one agent gives no other agent access. When this page was checked on 2026-11-10, it was available for Individual and Family accounts on 1Password.com (not .eu or .ca).
+
+Where it stands for PearlBook's agents (re-check before relying on it):
+
+| Where the agent's browser runs | Password-manager sign-in today |
+|---|---|
+| Claude Code or Claude Desktop on a Mac, with Claude in Chrome | [1Password for Claude](https://support.claude.com/en/articles/15936181-get-started-with-1password-for-claude) (beta). See the [Claude adapter](../docs/platforms/claude.md#password-manager-sign-in) for setup. |
+| OpenClaw on a macOS host | The same 1Password for Claude flow, with a person at the Mac to approve each fill. See [OpenClaw](../docs/platforms/openclaw.md#optional-browser-sign-in-with-1password). |
+| ChatGPT dot cloud browser | 1Password for Agents lists dots as coming soon. Until then, use the dot's private sign-in form or optional saved login ([ChatGPT adapter](../docs/platforms/codex-chatgpt.md#5-connect-a-trusted-source-and-optionally-save-its-login)). |
+| Claude Duet cloud browser | 1Password for Agents lists Duet as coming soon. Until then, Duet uses its own private in-app sign-in form. |
+| Local Codex, or any other local browser profile | Sign in yourself in the dedicated profile, optionally using your password manager's normal browser extension. |
+| Headless or Linux host with no person present | Not supported. There is no one to approve the fill. |
+
+Rules that apply on every platform:
+
+- Keep reference-site logins in a **dedicated password-manager vault** that holds only the sources PearlBook uses. Never approve EHR, hospital email, or banking items for an agent task.
+- Approve each request yourself. Do not turn on standing or "always allow" approval for source logins.
+- A password-manager fill is still you signing in, under your subscription. The source's terms and the one-page-per-question rules below still apply.
+- Never relay a password or one-time code through chat or a messaging app as a workaround.
+- MFA prompts, CAPTCHAs, and terms acceptance still go to you.
+- If the integration is unavailable or a fill fails, fall back to signing in yourself. If you can't, say the source was not consulted.
+
 ## Browser capabilities the adapter needs
 
 - status and profile discovery

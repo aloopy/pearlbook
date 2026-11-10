@@ -15,7 +15,7 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 ## Authenticated browser rules
 
 1. Use a dedicated browser profile signed into only the reference sites PearlBook needs, never the everyday browser that holds EHR, email, or banking sessions.
-2. The user enters credentials and completes MFA. A user-approved password-manager fill or platform private sign-in form is acceptable only when credentials go directly to the intended service without reaching the agent or chat. The user handles verification and medical/legal terms acceptance.
+2. The user enters credentials and completes MFA. A user-approved password-manager fill or platform private sign-in form is acceptable only when credentials go directly to the intended service without reaching the agent or chat. The user handles verification and medical/legal terms acceptance. See [password-manager sign-in](workflows/corependium-browser.md#optional-sign-in-with-a-password-manager) for integrations such as 1Password for Agents and where each is available.
 3. The agent may reuse that session to open the specific pages the user's question needs.
 4. The agent must not export or serialize authentication state into the repository.
 5. A login blocker causes a human handoff, not credential-guessing or bypass.
@@ -29,7 +29,6 @@ Use synthetic or thoroughly de-identified examples. “Removing the name” is n
 | Local computer | User-authenticated browser profile; local OS protections | Password text, MFA seed, recovery code, exported cookies |
 | Private headless host | Scoped machine tokens required by the sync or narrow tool | Human website passwords or unrestricted home-directory access |
 | Dot cloud computer | Authorized private vault replica; user-authenticated source session; optional user-approved managed login | Passwords exposed to the agent/chat, copied authentication state, PHI |
-| Claude Duet (research preview) | Narrow, approval-gated connectors; private in-app sign-in form; per-request 1Password approval once available | Vault replica, PHI (Duet memory persists until reset), passwords in chat, "don't ask again" for vault writes |
 | Cloud coding environment | Minimum scoped machine credential for public-repository development | Personal vault, licensed-site credentials, browser state, human passwords |
 | Private PearlBook tool | Tool-specific authentication and least-privilege vault path | General shell, arbitrary filesystem root, secret-store browsing |
 
