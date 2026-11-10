@@ -2,9 +2,9 @@
 
 Claude Code and claude.ai can implement the PearlBook workflow with the same separation used elsewhere in this repository: the public framework stays in this repo, and the private vault stays on machines the clinician controls.
 
-Use this adapter for one of three distinct paths: local Claude Code beside the vault, Remote Control steering that computer from a phone, or claude.ai calling narrow vault tools on a persistent private host. Do not assume that claude.ai can read a local vault merely because Claude Code can.
+Use this adapter for one of three distinct paths: local Claude Code beside the vault, Remote Control steering that computer from a phone, or claude.ai calling narrow vault tools on a persistent private host. [Claude Duet](#claude-duet-informational) is described for awareness only. Do not assume that claude.ai can read a local vault merely because Claude Code can.
 
-This adapter was verified against official Claude documentation on 2026-09-22 (first drafted 2026-08-24). Platform capabilities, plans, and defaults change; re-verify the linked documentation before relying on plan- or version-specific details.
+This adapter was verified against official Claude documentation on 2026-09-22 (first drafted 2026-08-24). The Claude Duet and 1Password notes were checked against official Anthropic and 1Password pages on 2026-11-10. Platform capabilities, plans, and defaults change; re-verify the linked documentation before relying on plan- or version-specific details.
 
 ## Option 1: local Claude Code
 
@@ -90,6 +90,17 @@ Claude-specific adapter details:
 
 The tool-host boundaries are identical to the ChatGPT pattern: claude.ai is the agent, the host is only a tool server, the host's browser logins are not inherited, and public research is limited to what the claude.ai conversation surface provides.
 
+## Claude Duet (informational)
+
+[Claude Duet](https://claude.com/product/claude-duet) is Anthropic's proactive agent, a research preview launched in October 2026. It works on its own Anthropic-managed cloud computer and browser while your devices are off. It sends a morning brief, checks connected apps every few hours, and asks before it sends, pays, signs, or deletes. It carries over the memory, skills, and connected apps from your Claude account ([get started](https://support.claude.com/en/articles/17631495-get-started-with-claude-duet), [safety](https://claude.com/resources/articles/claude-duet-safety-privacy-and-security)).
+
+It is listed here for awareness, not as a PearlBook setup path. As of 2026-11-10:
+
+- It is a waitlisted preview for US Pro, Max, and Ultra accounts, on iPhone, Android, and claude.ai.
+- It cannot see files on your computer, and its documentation does not describe running software such as Obsidian Headless. Its pages also do not say whether a custom remote MCP connector (Option 3) carries over. So there is no documented way for it to reach a PearlBook vault.
+- Duet keeps conversation history and memory until you delete or reset them. Never give it patient details.
+- For sign-in to sources, see [password-manager sign-in](../../workflows/corependium-browser.md#optional-sign-in-with-a-password-manager).
+
 ## Optional authenticated reference browsing
 
 When a user's field requires a licensed or institutional source, the [Claude in Chrome](https://code.claude.com/docs/en/chrome.md) extension can connect Claude Code to a Chrome (or other Chromium-based) browser and satisfy the shared authenticated-browser trust boundary.
@@ -100,11 +111,21 @@ When a user's field requires a licensed or institutional source, the [Claude in 
 - It navigates, reads rendered pages (including JavaScript applications), and reports what is visible.
 - It pauses at login pages and CAPTCHAs and asks the human to handle them.
 - Site-level permissions in the extension control which sites Claude may act on; grant only the reference sites the workflow needs.
-- Optionally, [1Password for Claude](https://support.1password.com/1password-claude/) can fill a login without the password reaching Claude: each fill needs the user's approval on the Mac (for example Touch ID). It currently requires macOS, the Claude desktop app, and a paid plan.
+- Optionally, a password manager can fill the login without the password reaching Claude. See [Password-manager sign-in](#password-manager-sign-in).
 
 Availability is plan- and platform-dependent (direct Anthropic paid plans, desktop Chromium browsers, no WSL or mobile). For public research, Claude Code's built-in web search and fetch tools work without a browser, but a generic fetch of a licensed JavaScript application may return only a shell — that indicates the browser path is needed, not that access failed.
 
 CorePendium is one emergency-medicine example of this optional pattern; follow the [CorePendium workflow](../../workflows/corependium-browser.md) and the source's own terms. Claude and PearlBook do not require it.
+
+### Password-manager sign-in
+
+The cross-platform guidance is in the [source sign-in workflow](../../workflows/corependium-browser.md#optional-sign-in-with-a-password-manager). Claude-specific setup for [1Password for Claude](https://support.claude.com/en/articles/15936181-get-started-with-1password-for-claude) (beta) is below.
+
+- **Needs:** a Mac with Claude Desktop, Claude in Chrome, the 1Password desktop app, and the 1Password browser extension, plus a paid Claude plan.
+- **Connect:** go to **Customize > Connectors > 1Password > Connect** in Claude Desktop, or use the in-chat prompt the first time a task needs a login.
+- **Team and Enterprise:** an Owner turns on **Password managers** under **Organization settings > Claude in Chrome**.
+- **Approve:** 1Password shows the requested item. You approve, swap, or deny it, then confirm with biometrics. Access ends when the task does.
+- **Scope:** logins and TOTP codes only, not cards or identities. Leave 1Password's Agentic Mode on. It limits Claude to the items approved for the current task.
 
 ## Data and privacy notes
 
@@ -120,6 +141,7 @@ CorePendium is one emergency-medicine example of this optional pattern; follow t
 | Message from a phone while a computer is online | Remote Control steering the local session |
 | Access when the personal computer is offline | claude.ai plus persistent private host and a narrow, authenticated remote-MCP connector |
 | Read licensed references | Claude in Chrome over a dedicated, clinician-authenticated browser profile |
+| Sign in to a reference without exposing the password | 1Password for Claude on the Mac, approved per request |
 | Improve the public framework | Cloud session or local checkout of this repository |
 
 ## Recovery behavior

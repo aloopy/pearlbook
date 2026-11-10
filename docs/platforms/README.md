@@ -19,7 +19,7 @@ Every adapter must:
 - stop for authentication, uncertainty, or unsafe external action; and
 - say when the vault or a requested source was not consulted.
 
-Authenticated reference browsing is optional. It can use a local or cloud agent's dedicated, user-authenticated browser profile (signed into only the needed sources) or a separately designed, narrow source tool. A tool-only MCP host does not inherit browser sessions.
+Authenticated reference browsing is optional. It can use a local or cloud agent's dedicated, user-authenticated browser profile (signed into only the needed sources) or a separately designed, narrow source tool. A tool-only MCP host does not inherit browser sessions. On any adapter, the user may sign that browser in with an [approved password-manager fill](../../workflows/corependium-browser.md#optional-sign-in-with-a-password-manager) where the platform supports one.
 
 ## Adapter boundaries
 

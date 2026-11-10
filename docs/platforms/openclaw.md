@@ -74,6 +74,8 @@ Read the [exposure runbook](https://docs.openclaw.ai/gateway/security/exposure-r
 
 ### Optional: browser sign-in with 1Password
 
+The cross-platform rules for password-manager sign-in are in the [source sign-in workflow](../../workflows/corependium-browser.md#optional-sign-in-with-a-password-manager). The OpenClaw-specific setup follows.
+
 OpenClaw documents [browser sign-in with 1Password for Claude](https://docs.openclaw.ai/gateway/1password#browser-sign-in-with-1password-for-claude): 1Password fills the login directly into the page, and the password never reaches the model, the transcript, or OpenClaw. It is narrow by design:
 
 - a **macOS gateway host** with Chrome, the Claude in Chrome extension connected, the 1Password desktop app, and the 1Password browser extension (8.12.28 or later);

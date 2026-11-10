@@ -134,7 +134,7 @@ Keep three different browser paths explicit:
 2. **Browser supplied by the conversation surface:** ChatGPT or Claude may provide public web search, browser use, or connectors. Those capabilities run outside the private host and do not inherit the host's logged-in browser session.
 3. **Source tools exposed through MCP:** a private host may expose narrowly designed tools for approved sources. This is additional implementation work and should not become an unrestricted browser proxy.
 
-For licensed references, the agent never handles passwords and never automates MFA, CAPTCHA, or session export. The user logs in (a password-manager fill the user approves on their own device is fine). The agent then opens one page at a time for the user's question, stores its own summary and a link, and never crawls, bulk-downloads, or mirrors the source. See the [CorePendium example](../workflows/corependium-browser.md).
+For licensed references, the agent never handles passwords and never automates MFA, CAPTCHA, or session export. The user logs in (a password-manager fill the user approves on their own device is fine; see [password-manager sign-in](../workflows/corependium-browser.md#optional-sign-in-with-a-password-manager)). The agent then opens one page at a time for the user's question, stores its own summary and a link, and never crawls, bulk-downloads, or mirrors the source. See the [CorePendium example](../workflows/corependium-browser.md).
 
 The Codex/ChatGPT skill includes a bounded stdio MCP implementation and a guided
 [headless setup runbook](../skills/codex/pearlbook/references/headless-chatgpt.md).
